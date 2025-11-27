@@ -1,10 +1,12 @@
-FROM python:3.12-latest
+FROM python:3.12.12-slim-bookworm
+
+WORKDIR /backapp
+
+RUN apt-get update
 
 COPY requirements.txt ./
 
-RUN apt-get update && apt-get upgrade -y && \
-    pip install --no-cache-dir -r requirements.txt
-WORKDIR /backend
+RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8080
 

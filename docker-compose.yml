@@ -1,2 +1,16 @@
 services:
-  
+  front:
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend:/frontapp
+    ports:
+      - "3030:3030"
+
+  backend:
+    build:
+      context: ./backend
+    volumes:
+      - ./backend:/backapp
+    ports:
+      - "8080:8080"

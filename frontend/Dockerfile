@@ -1,11 +1,13 @@
-FROM node:22-slim
+FROM node:22.21-bookworm-slim
 
-COPY package.json package-lock.json ./
-RUN apt-get update && apt-get upgrade -y && apt-get clean \
-    npm install
-WORKDIR /frontend
+WORKDIR /frontapp
 
-COPY . .
+RUN apt-get update && apt-get clean
+
+COPY package*.json ./
+
+RUN npm install
+
 EXPOSE 3030
 
-CMD [ "npm", "run", "dev", "-H", "0.0.0.0", "-p", "3030"]
+CMD [ "npm", "run", "dev", "--", "-H", "0.0.0.0", "-p", "3030"]

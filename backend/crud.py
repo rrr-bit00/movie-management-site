@@ -1,7 +1,8 @@
+from sqlmodel import Session
+
 from models import Movie
 from database import SessionLocal
 from schemas import MovieCreate, MovieUpdate
-from sqlalchemy.orm import Session
 
 def create_movie(movie: MovieCreate):
     with SessionLocal() as db:
