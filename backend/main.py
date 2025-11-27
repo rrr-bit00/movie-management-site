@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends
-from sqlalchemy.orm import Session
+from sqlmodel import Session
+
 from schemas import MovieCreate, MovieResponse, MovieUpdate
 from crud import create_movie, get_movies, update_movie, delete_movie
 from database import engine, Base, SessionLocal

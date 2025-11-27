@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlmodel import Field
 from database import Base
 
 class Movie(Base):
