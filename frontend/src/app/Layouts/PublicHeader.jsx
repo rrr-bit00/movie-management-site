@@ -30,7 +30,7 @@ export default function PublicHeader() {
             </NavigationMenuList>
           </NavigationMenu>
           <div className="flex items-center gap-4">
-            <Input placeholder="検索" className="w-[200px] lg:w-[300px]" />
+            <Input placeholder="作品や監督、公開年から検索" className="w-[200px] lg:w-[300px]" />
           </div>
         </div>
       </header >

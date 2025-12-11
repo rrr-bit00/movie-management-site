@@ -7,10 +7,9 @@ async function GetMovie(id) {
 }
 
 export default async function page({ params }) {
-    const param = await params
-    // const movie = await GetMovie(param.id)
+    // const movie = await GetMovie(params.id)
 
-
+    // params（id）のDataを取得する
     const movie = mocksData.find(m => m.id == params.id)
     return (
         <div className="bg-gray-200">
@@ -22,7 +21,8 @@ export default async function page({ params }) {
                     <span>公開年：{movie.released_year}年</span>
                 </div>
             </div>
-            <p className="text-lg px-6 ">補足：{movie.discription}</p>
+            <br />
+            <p className="text-lg px-6 "><span className="text-xl font-bold">補足</span>：{movie.discription}</p>
         </div>
     )
 }
