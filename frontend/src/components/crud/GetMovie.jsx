@@ -13,7 +13,7 @@ export default async function GetMovie({ movies }) {
                             <h3 className="font-bold text-xl mb-2">title : {movie.title}</h3>
                             <p className="mb-1">director : {movie.director}</p>
                             <p className="mb-2">released_year : {movie.released_year}</p>
-                            <p className="line-clamp-2">discription: {movie.discription}</p>
+                            <p className="line-clamp-2">description: {movie.description}</p>
                         </div>
                     </div>
                 </Link>

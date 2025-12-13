@@ -22,7 +22,7 @@ export default async function page({ params }) {
                 </div>
             </div>
             <br />
-            <p className="text-lg px-6 "><span className="text-xl font-bold">補足</span>：{movie.discription}</p>
+            <p className="text-lg px-6 "><span className="text-xl font-bold">補足</span>：{movie.description}</p>
         </div>
     )
 }
