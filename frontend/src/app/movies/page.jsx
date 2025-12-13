@@ -1,18 +1,15 @@
-import AllGetMovie from "@/components/crud/AllGetMovie"
-import { mocksData } from "@/lib/mock/mock"
+import GetMovie from "@/components/crud/GetMovie"
+import { searchMovies } from "@/lib/movies";
 
-async function getAllMovie() {
-    const response = await fetch("http://localhost:8080");
-    const movies = await response.json()
-    return movies
-}
+export default async function MoviePage({searchParams}) {
+    const query = searchParams.q ?? ''
 
-export default async function page() {
-    // const movies = await getAllMovie()
+    // 検索クエリから問い合わせ
+    const movies = await searchMovies(query)
+
     return (
         <div className="flex flex-wrap justify-center">
-            {/* <AllGetMovie movies={movies} /> */}
-            < AllGetMovie movies={mocksData} />
+            <GetMovie movies={movies} />
         </div >
     )
 }

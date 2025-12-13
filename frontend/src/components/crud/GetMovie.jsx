@@ -1,6 +1,8 @@
 import Link from "next/link"
 
-export default async function AllGetMovie({ movies }) {
+export default async function GetMovie({ movies }) {
+    if (movies.length === 0)
+        return <p className="text-muted-foreground">作品が見つかりませんでした</p>
     return (
         <>
             {movies.map((movie) => (
