@@ -1,7 +1,8 @@
-import GetMovie from "@/components/crud/GetMovie"
-import { searchMovies } from "@/lib/movies";
+import MovieList from "@/components/crud/MovieList"
+import { searchMovies } from "@/lib/search";
 
 export default async function MoviePage({searchParams}) {
+    // クエリがあるか判定
     const query = searchParams.q ?? ''
 
     // 検索クエリから問い合わせ
@@ -9,7 +10,7 @@ export default async function MoviePage({searchParams}) {
 
     return (
         <div className="flex flex-wrap justify-center">
-            <GetMovie movies={movies} />
+            <MovieList movies={movies} />
         </div >
     )
 }

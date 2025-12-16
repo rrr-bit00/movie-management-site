@@ -3,19 +3,13 @@ from sqlmodel import Session
 
 from schemas import MovieCreate, MovieResponse, MovieUpdate
 from crud import create_movie, get_movies, update_movie, delete_movie
-from database import engine, Base, SessionLocal
+from db.database import engine, Base, SessionLocal
+from db.deps import get_db
 from models import Movie
 
 app = FastAPI()
 
 Base.metadata.create_all(bind=engine)
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 @app.post("/movies", response_model=MovieResponse)
 def add_movie(movie: MovieCreate):

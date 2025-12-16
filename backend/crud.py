@@ -1,7 +1,7 @@
 from sqlmodel import Session
 
 from models import Movie
-from database import SessionLocal
+from db.database import SessionLocal
 from schemas import MovieCreate, MovieUpdate
 
 def create_movie(movie: MovieCreate):
