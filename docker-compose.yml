@@ -3,7 +3,10 @@ services:
     build:
       context: ./frontend
     volumes:
-      - ./frontend/src:/frontapp/src
+      - ./frontend:/frontapp
+      # 上書き防止
+      - /frontapp/node_modules
+      - /frontapp/.next
     ports:
       - "3030:3030"
 
@@ -14,3 +17,7 @@ services:
       - ./backend:/backapp
     ports:
       - "8080:8080"
+
+volumes:
+  node_modules:
+  .next:
