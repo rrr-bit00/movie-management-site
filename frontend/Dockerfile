@@ -6,7 +6,7 @@ RUN apt-get update && apt-get clean
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm ci
 
 EXPOSE 3030
 
