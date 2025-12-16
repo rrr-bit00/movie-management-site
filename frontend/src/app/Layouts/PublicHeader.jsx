@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Input } from "@/components/ui/input"
+import SearchInput from "@/components/ui/search-input"
 
 import {
   NavigationMenu,
@@ -30,7 +30,7 @@ export default function PublicHeader() {
             </NavigationMenuList>
           </NavigationMenu>
           <div className="flex items-center gap-4">
-            <Input placeholder="検索" className="w-[200px] lg:w-[300px]" />
+            <SearchInput placeholder="作品や監督、公開年から検索" className="w-[200px] lg:w-[300px]" />
           </div>
         </div>
       </header >
