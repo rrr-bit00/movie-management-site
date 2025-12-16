@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from sqlmodel import SQLModel
 
-class MovieBase(BaseModel):
+class MovieBase(SQLModel):
     title: str
     description: str
     director: str
@@ -10,7 +10,7 @@ class MovieBase(BaseModel):
 class MovieCreate(MovieBase):
     pass
 
-class MovieUpdate(BaseModel):
+class MovieUpdate(SQLModel):
     title: str | None = None
     description: str | None = None
     director: str | None = None
@@ -19,5 +19,3 @@ class MovieUpdate(BaseModel):
 class MovieResponse(MovieBase):
     id: int
 
-    class Config:
-        orm_mode = True
