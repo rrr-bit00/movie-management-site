@@ -6,8 +6,12 @@ from db.crud import create_movie, get_all_movies, get_movie, update_movie, delet
 from db.database import create_db_and_tables, SessionDep
 from db.deps import get_db
 from models import Movie
+from core.middleware import setup_middleware
 
 app = FastAPI()
+
+# ミドルウェア
+setup_middleware(app)
 
 # DBとテーブルの作成
 @app.on_event("startup")
