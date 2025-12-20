@@ -1,6 +1,6 @@
 from typing import Annotated
 from fastapi import Depends
-from sqlmodel import create_engine, SQLmodel
+from sqlmodel import create_engine, SQLModel, Session
 
 SQLITE_URL = "sqlite:///./movies.db"
 
@@ -9,8 +9,8 @@ engine = create_engine(
 )
 
 # DBとテーブル作成
-def create_db_and_tables:
-    SQLmodel.metadata.create_all(engine)
+def create_db_and_tables():
+    SQLModel.metadata.create_all(engine)
 
 # Session
 def get_session():
