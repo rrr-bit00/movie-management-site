@@ -22,8 +22,8 @@ def add_movie(movie: MovieCreate, session: SessionDep):
     return create_movie(movie, session)
 
 @app.get("/movies", response_model=list[MovieResponse])
-def list_movies():
-    return get_all_movies()
+def list_movies(session: SessionDep):
+    return get_all_movies(session)
 
 @app.get("/movies/{movie_id}", response_model=MovieResponse)
 def read_movie(movie_id: int, session: SessionDep):
