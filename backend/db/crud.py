@@ -20,7 +20,11 @@ def update_movie(movie_id: int, movie_data: MovieUpdate, session: Session):
     db_movie = session.get(Movie, movie_id)
     if db_movie is None:
         return None
-    for key, value in movie_data.model_dump().items():
+
+    # 送られたものだけを取り出す
+    data = movie_data.model_dump(exclude_unset=True)
+
+    for key, value in data.items():
         setattr(db_movie, key, value)
 
     session.commit()
