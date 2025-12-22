@@ -6,6 +6,7 @@ export default function MovieDetail({movie}) {
   return (
     <div>
       <h2>{movie.title}</h2>
+      <img className="" src={movie.image} alt={movie.title} />
       <p>監督：{movie.director}</p>
       <p>公開年：{movie.year}</p>
       <p>{movie.description}</p>
