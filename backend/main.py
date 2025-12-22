@@ -1,22 +1,21 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, HTTPException, Depends
 from sqlmodel import Session
 
 from schemas import MovieCreate, MovieResponse, MovieUpdate
 from db.crud import create_movie, get_all_movies, get_movie, update_movie, delete_movie
 from db.database import create_db_and_tables, SessionDep
-from db.deps import get_db
 from models import Movie
 from core.middleware import setup_middleware
+from core.lifespans import lifespan
 
-app = FastAPI()
+# lifespanを渡してDB作成
+app = FastAPI(lifespan=lifespan)
 
 # ミドルウェア
 setup_middleware(app)
 
-# DBとテーブルの作成
-@app.on_event("startup")
-def on_startup():
-    create_db_and_tables()
 
 @app.post("/movies", response_model=MovieResponse)
 def add_movie(movie: MovieCreate, session: SessionDep):
