@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import useForm from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
@@ -12,6 +12,7 @@ export default function MovieForm({
     director: "",
     released_year: "",
   },
+  submitLabel,
   onSubmit,
 }) {
   // useFormを作成
@@ -27,7 +28,7 @@ export default function MovieForm({
     // FastAPIがstrを期待するため文字のまま
     const payload = {
       ...values,
-      year: values.year === "" ? undefined : values.year,
+      released_year: values.released_year === "" ? undefined : values.released_year,
     };
     await onSubmit(payload);
   };
@@ -45,37 +46,41 @@ export default function MovieForm({
       </div>
 
       <div>
-        <Label htmlFor="description">タイトル</Label>
+        <Label htmlFor="description">作品の説明</Label>
         <Input
           id="description"
-          placeholder="説明"
-          {...register("description", { required: "タイトルは必須" })}
+          placeholder="映画の説明"
+          {...register("description", { required: "説明は必須" })}
         />
-        {errors.title && <p>{String(errors.title.message)}</p>}
+        {errors.description && <p>{String(errors.description.message)}</p>}
       </div>
 
       <div>
-        <Label htmlFor="title">タイトル</Label>
+        <Label htmlFor="title">監督名</Label>
         <Input
-          id="title"
-          placeholder="映画タイトル <例：Inception>"
-          {...register("title", { required: "タイトルは必須" })}
+          id="director"
+          placeholder="映画の監督名"
+          {...register("director", { required: "監督名は必須" })}
         />
-        {errors.title && <p>{String(errors.title.message)}</p>}
+        {errors.director && <p>{String(errors.director.message)}</p>}
       </div>
 
       <div>
-        <Label htmlFor="year">年</Label>
+        <Label htmlFor="released_year">年</Label>
         <Input
-          id="year"
-          placeholder="公開年 <例：2020>"
-          {...register("year", {
+          id="released_year"
+          placeholder="映画の公開年 <例：2020>"
+          {...register("released_year", {
             // 4桁の数字の正規表現
             pattern: { value: /^\d{4}/, message: "4桁の数字にしてください" },
           })}
         />
-        {errors.year && <p>{String(errors.year.message)}</p>}
+        {errors.released_year && <p>{String(errors.released_year.message)}</p>}
       </div>
+
+      <Button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? "送信中・・・" : submitLabel}
+      </Button>
     </form>
   );
 }

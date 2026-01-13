@@ -1,6 +1,8 @@
+'use client'
+
 import Link from "next/link"
 
-export default async function MovieList({ movies }) {
+export default function MovieList({ movies }) {
     if (!movies || movies.length === 0)
         return <p className="text-muted-foreground">作品が見つかりませんでした</p>
     return (
