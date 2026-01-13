@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, status
 from sqlmodel import Session
 
 from schemas import MovieCreate, MovieResponse, MovieUpdate
@@ -17,7 +17,7 @@ app = FastAPI(lifespan=lifespan)
 setup_middleware(app)
 
 
-@app.post("/movies", response_model=MovieResponse)
+@app.post("/movies", response_model=MovieResponse, status_code=status.HTTP_201_CREATED)
 def add_movie(movie: MovieCreate, session: SessionDep):
     return create_movie(movie, session)
 
@@ -39,9 +39,9 @@ def update_movie_info(movie_id: int, movie: MovieUpdate, session: SessionDep):
         raise HTTPException(status_code=404, detail="Movie not found")
     return updated
 
-@app.delete("/movies/{movie_id}", response_model=MovieResponse)
+@app.delete("/movies/{movie_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_movie_info(movie_id: int, session: SessionDep):
     deleted = delete_movie(movie_id, session)
     if deleted is None:
         raise HTTPException(status_code=404, detail="Movie not found")
-    return deleted
+    return

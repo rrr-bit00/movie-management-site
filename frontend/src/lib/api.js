@@ -1,7 +1,13 @@
+import { notFound } from "next/navigation";
+
+// clientとserver両方に対応
+const API = typeof window === "undefined" ?
+    (process.env.API_INTERNAL_BASE_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL)
+    : process.env.NEXT_PUBLIC_API_BASE_URL;
+
 export async function searchMoviesApi(q) {
     const res = await fetch(
-        // localhostではコンテナ内でアクセスするため、コンテナのサービス名を指定する
-        `http://backend:8080/movies?query=${encodeURIComponent(q)}`,
+        `${API}/movies?query=${encodeURIComponent(q)}`,
         { cache: "no-store" }
     )
 
@@ -13,9 +19,10 @@ export async function searchMoviesApi(q) {
 
 export async function getMovieIdApi(id) {
     const res = await fetch(
-        `http://backend:8080/movies/${id}`,
+        `${API}/movies/${id}`,
         { cache: "no-store" }
     )
+    if (res.status === 404) notFound();
     if (!res.ok) {
         throw new Error("詳細の取得に失敗しました")
     }
@@ -24,7 +31,7 @@ export async function getMovieIdApi(id) {
 
 export async function createMovieApi(body) {
     const res = await fetch(
-        `http://backend:8080/movies`, {
+        `${API}/movies`, {
         method: "POST",
         headers: { "Content-Type": "application/json" }, // メタデータの宣言(JSONを渡す)
         body: JSON.stringify(body),
@@ -36,9 +43,9 @@ export async function createMovieApi(body) {
     return res.json()
 }
 
-export async function updateMovieApi(body) {
+export async function updateMovieApi(id, body) {
     const res = await fetch(
-        `http://backend:8080/movies/${id}`, {
+        `${API}/movies/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
@@ -52,12 +59,13 @@ export async function updateMovieApi(body) {
 
 export async function deleteMovieApi(id) {
     const res = await fetch(
-        `http://backend:8080/movies/${id}`, {
+        `${API}/movies/${id}`, {
         method: "DELETE",
     }
     )
     if (!res.ok) {
-        throw new Error("削除に失敗しました")
+        const text = await res.text().catch(() => "");
+        throw new Error(`削除に失敗しました (${res.status}) ${text}`);
+        // throw new Error("削除に失敗しました")
     }
-    return res.json()
 }
