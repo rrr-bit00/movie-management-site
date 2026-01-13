@@ -1,9 +1,10 @@
 import MovieList from "@/components/crud/MovieList"
 import { searchMovies } from "@/lib/search";
 
-export default async function MoviePage({searchParams}) {
+export default async function MoviePage({ searchParams }) {
+    const { q } = await searchParams
     // クエリがあるか判定
-    const query = searchParams.q ?? ''
+    const query = q ?? ''
 
     // 検索クエリから問い合わせ
     const movies = await searchMovies(query)

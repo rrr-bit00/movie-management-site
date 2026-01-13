@@ -23,9 +23,11 @@ export default function PublicHeader() {
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem className="mx-4">
-                <Link href="/movies/new">
-                  <NavigationMenuLink className="font-bold text-lg">映画登録</NavigationMenuLink>
-                </Link>
+                <NavigationMenuLink className="font-bold text-lg" asChild>
+                  <Link href="/movies/new">
+                    映画登録
+                  </Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
