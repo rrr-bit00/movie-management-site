@@ -15,18 +15,18 @@ export default function PublicHeader() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <NavigationMenu>
             <NavigationMenuList>
-              <NavigationMenuItem>
+              <NavigationMenuItem className="mx-4">
                 <NavigationMenuLink className="font-bold text-xl" asChild>
                   <Link href="/movies">
                     Home
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
-              {/* <NavigationMenuItem className="flex justify-end">
-                <Link href="/">
-                  <NavigationMenuLink className="font-medium text-base">Movies</NavigationMenuLink>
+              <NavigationMenuItem className="mx-4">
+                <Link href="/movies/new">
+                  <NavigationMenuLink className="font-bold text-lg">映画登録</NavigationMenuLink>
                 </Link>
-              </NavigationMenuItem> */}
+              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
           <div className="flex items-center gap-4">
