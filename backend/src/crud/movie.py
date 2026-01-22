@@ -1,7 +1,8 @@
 from sqlmodel import Session, select
 
-from models import Movie
-from schemas import MovieCreate, MovieUpdate
+from src.models.movies import Movies
+from src.schemas.users import MovieCreate, MovieUpdate
+
 
 def create_movie(movie: MovieCreate, session: Session):
     db_movie = Movie(**movie.model_dump())
@@ -10,11 +11,14 @@ def create_movie(movie: MovieCreate, session: Session):
     session.refresh(db_movie)
     return db_movie
 
+
 def get_all_movies(session: Session):
     return session.exec(select(Movie)).all()
 
+
 def get_movie(movie_id: int, session: Session):
     return session.get(Movie, movie_id)
+
 
 def update_movie(movie_id: int, movie_data: MovieUpdate, session: Session):
     db_movie = session.get(Movie, movie_id)
@@ -30,6 +34,7 @@ def update_movie(movie_id: int, movie_data: MovieUpdate, session: Session):
     session.commit()
     session.refresh(db_movie)
     return db_movie
+
 
 def delete_movie(movie_id: int, session: Session):
     db_movie = session.get(Movie, movie_id)
