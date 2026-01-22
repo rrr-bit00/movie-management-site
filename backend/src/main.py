@@ -3,12 +3,18 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Depends, status
 from sqlmodel import Session
 
-from schemas.movies import MovieCreate, MovieResponse, MovieUpdate
-from db.crud import create_movie, get_all_movies, get_movie, update_movie, delete_movie
-from db.database import create_db_and_tables, SessionDep
-from models.movies import Movie
-from core.middleware import setup_middleware
-from core.lifespans import lifespan
+from src.schemas.movies import MovieCreate, MovieResponse, MovieUpdate
+from src.db.crud import (
+    create_movie,
+    get_all_movies,
+    get_movie,
+    update_movie,
+    delete_movie,
+)
+from src.core.database import create_db_and_tables, SessionDep
+from src.models.movies import Movie
+from src.core.middleware import setup_middleware
+from src.core.lifespans import lifespan
 
 # lifespanを渡してDB作成
 app = FastAPI(lifespan=lifespan)
@@ -21,9 +27,11 @@ setup_middleware(app)
 def add_movie(movie: MovieCreate, session: SessionDep):
     return create_movie(movie, session)
 
+
 @app.get("/movies", response_model=list[MovieResponse])
 def list_movies(session: SessionDep):
     return get_all_movies(session)
+
 
 @app.get("/movies/{movie_id}", response_model=MovieResponse)
 def read_movie(movie_id: int, session: SessionDep):
@@ -32,12 +40,14 @@ def read_movie(movie_id: int, session: SessionDep):
         raise HTTPException(status_code=404, detail="Movie not found")
     return movie
 
+
 @app.put("/movies/{movie_id}", response_model=MovieResponse)
 def update_movie_info(movie_id: int, movie: MovieUpdate, session: SessionDep):
     updated = update_movie(movie_id, movie, session)
     if updated is None:
         raise HTTPException(status_code=404, detail="Movie not found")
     return updated
+
 
 @app.delete("/movies/{movie_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_movie_info(movie_id: int, session: SessionDep):
