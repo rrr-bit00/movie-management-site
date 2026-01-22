@@ -21,3 +21,6 @@ class MovieUpdate(SQLModel):
 class MovieResponse(MovieBase):
     id: uuid.UUID
 
+class MoviesResponse(SQLModel):
+    data: list[MovieResponse]
+    count: int
