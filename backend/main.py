@@ -3,10 +3,10 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Depends, status
 from sqlmodel import Session
 
-from schemas import MovieCreate, MovieResponse, MovieUpdate
+from schemas.movies import MovieCreate, MovieResponse, MovieUpdate
 from db.crud import create_movie, get_all_movies, get_movie, update_movie, delete_movie
 from db.database import create_db_and_tables, SessionDep
-from models import Movie
+from models.movies import Movie
 from core.middleware import setup_middleware
 from core.lifespans import lifespan
 
