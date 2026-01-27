@@ -1,7 +1,7 @@
 from sqlmodel import Session, select
 
-from src.models.movies import Movies
-from src.schemas.users import MovieCreate, MovieUpdate
+from src.models.movies import Movie
+from src.schemas.movies import MovieCreate, MovieUpdate
 
 
 def create_movie(movie: MovieCreate, session: Session):

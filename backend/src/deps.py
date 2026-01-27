@@ -4,10 +4,11 @@ from fastapi.security import OAuth2PasswordBearer
 from pydantic import ValidationError
 
 import jwt
-from fastapi import Depends, HTTPException
-from src.core import security
+from jwt.exceptions import InvalidTokenError
+from fastapi import Depends, HTTPException, status
 from src.core.database import SessionDep
 from src.models.users import User
+from src.schemas.token import TokenPayload
 
 
 reusable_oauth2 = OAuth2PasswordBearer(
@@ -21,7 +22,9 @@ TokenDep = Annotated[str, Depends(reusable_oauth2)]
 def get_current_user(session: SessionDep, token: TokenDep) -> User:
     # 認証を検証する
     try:
-        payload = jwt.decode(token, setting.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        payload = jwt.decode(
+            token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
+        )
         token_data = TokenPayload(**payload)
     # 検証に失敗した場合、403のステータスコードを返す
     except (InvalidTokenError, ValidationError):
