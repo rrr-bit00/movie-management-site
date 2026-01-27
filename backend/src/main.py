@@ -1,21 +1,18 @@
-from contextlib import asynccontextmanager
-
-from fastapi import FastAPI, HTTPException, Depends, status
-from sqlmodel import Session
+from fastapi import FastAPI, HTTPException, Response, status
 
 from src.schemas.movies import MovieCreate, MovieResponse, MovieUpdate
-from src.db.crud import (
+from src.crud.movie import (
     create_movie,
     get_all_movies,
     get_movie,
     update_movie,
     delete_movie,
 )
-from src.core.database import create_db_and_tables, SessionDep
-from src.models.movies import Movie
+from src.core.database import SessionDep
 from src.core.middleware import setup_middleware
 from src.core.lifespans import lifespan
 
+# @app.on_eventが非推奨のため、推奨されているlifespanを使用
 # lifespanを渡してDB作成
 app = FastAPI(lifespan=lifespan)
 
@@ -49,9 +46,10 @@ def update_movie_info(movie_id: int, movie: MovieUpdate, session: SessionDep):
     return updated
 
 
+# 204はレスポンスが禁止なので、Responseを明示してbodyを返さない
 @app.delete("/movies/{movie_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_movie_info(movie_id: int, session: SessionDep):
+def delete_movie_info(movie_id: int, session: SessionDep) -> Response:
     deleted = delete_movie(movie_id, session)
     if deleted is None:
         raise HTTPException(status_code=404, detail="Movie not found")
-    return
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
