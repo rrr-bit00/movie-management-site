@@ -6,6 +6,7 @@ from pydantic import ValidationError
 import jwt
 from jwt.exceptions import InvalidTokenError
 from fastapi import Depends, HTTPException, status
+from src.core.config import settings
 from src.core.database import SessionDep
 from src.models.users import User
 from src.schemas.token import TokenPayload

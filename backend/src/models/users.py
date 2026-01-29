@@ -1,5 +1,3 @@
-# annotationsを利用して型ヒントの評価を遅らせる
-from __future__ import annotations
 from typing import TYPE_CHECKING
 import uuid
 
@@ -18,5 +16,5 @@ class User(UserBase, table=True):
     __tablename__: str = "users"
 
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
-    hashed_pass: str
+    hashed_password: str
     movies: list["Movie"] = Relationship(back_populates="owner", cascade_delete=True)
