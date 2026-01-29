@@ -1,6 +1,4 @@
-# annotationsを利用して型ヒントの評価を遅らせる
-from __future__ import annotations
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 import uuid
 
@@ -22,4 +20,5 @@ class Movie(MovieBase, table=True):
     owner_id: uuid.UUID = Field(
         foreign_key="users.id", nullable=False, ondelete="CASCADE"
     )
-    owner: User | None = Relationship(back_populates="movies")
+    # User | None だと__future__のannotationsが必要になるため、Optionalで代用
+    owner: Optional["User"] = Relationship(back_populates="movies")
