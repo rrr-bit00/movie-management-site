@@ -6,12 +6,31 @@ const API = typeof window === "undefined" ?
     : process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export async function searchMoviesApi(q) {
+
+    // // qが空なら全取得
+    // const url = q?.trim()
+    //     ? `${API}/movies?query=${encodeURIComponent(q)}`
+    //     : `${API}/movies`;
+
+    // console.log(url)
+    // const res = await fetch(url,
+    //     { cache: "no-store" }
+    // )
+
+    // if (!res.ok) {
+    //     const body = await res.text()
+    //     console.log("status:", res.status, "body:", body)
+    //     throw new Error("検索に失敗しました")
+    // }
+
     const res = await fetch(
         `${API}/movies?query=${encodeURIComponent(q)}`,
         { cache: "no-store" }
     )
 
     if (!res.ok) {
+        const body = await res.text()
+        console.log("status:", res.status, "body:", body)
         throw new Error("検索に失敗しました")
     }
     return res.json()

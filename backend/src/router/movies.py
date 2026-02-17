@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, Response, status
 
+from src.deps import CurrentUser
 from src.schemas.movies import MovieCreate, MovieResponse, MovieUpdate
 from src.crud import movies
 from src.core.database import SessionDep
@@ -8,13 +9,13 @@ router = APIRouter(prefix="/movies", tags=["movies"])
 
 
 @router.post("/", response_model=MovieResponse, status_code=status.HTTP_201_CREATED)
-def add_movie(movie_in: MovieCreate, session: SessionDep):
-    return movies.create_movie(movie_in, session)
+def add_movie(session: SessionDep, movie_in: MovieCreate, current_user: CurrentUser):
+    return movies.create_movie(session, movie_in, current_user=current_user)
 
 
 @router.get("/", response_model=list[MovieResponse])
-def list_movies(session: SessionDep):
-    return movies.get_all_movies(session)
+def list_movies(session: SessionDep, current_user: CurrentUser):
+    return movies.get_all_movies(session, current_user)
 
 
 @router.get("/{movie_id}", response_model=MovieResponse)
