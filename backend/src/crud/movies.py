@@ -1,18 +1,19 @@
 from sqlmodel import Session, select
 
+from src.deps import CurrentUser
 from src.models.movies import Movie
 from src.schemas.movies import MovieCreate, MovieUpdate
 
 
-def create_movie(movie: MovieCreate, session: Session):
-    db_movie = Movie(**movie.model_dump())
+def create_movie(session: Session, movie: MovieCreate, current_user: CurrentUser):
+    db_movie = Movie.model_validate(movie, update={"owner_id": current_user.id})
     session.add(db_movie)
     session.commit()
     session.refresh(db_movie)
     return db_movie
 
 
-def get_all_movies(session: Session):
+def get_all_movies(session: Session, current_user: CurrentUser):
     return session.exec(select(Movie)).all()
 
 
