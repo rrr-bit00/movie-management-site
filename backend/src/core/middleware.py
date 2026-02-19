@@ -1,16 +1,23 @@
-from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.routing import APIRoute
+
+from src.core.config import settings
 
 # ORIGINS
-origins = ["http://localhost:3030"]
+origins = [settings.FRONTEND_HOST]
+
+
+# OpenAPIの中でoperationIdという各エンドポイントの前にtagsをつける
+def custom_generate_unique_id(route: APIRoute) -> str:
+    return f"{route.tags[0]} - {route.name}"
+
 
 # CORS設定
-def setup_middleware(app: FastAPI):
+def setup_middleware(app):
     app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,  # 許可するオリジンを指定
-    allow_credentials=False, # クッキーなどの認証情報の送信を許可するかどうか
-    allow_methods=["*"],    # 許可するHTTPメソッド（"*"はすべて許可）
-    allow_headers=["*"],    # 許可するHTTPヘッダー（"*"はすべて許可）
-)
-
+        CORSMiddleware,
+        allow_origins=origins,  # 許可するオリジンを指定
+        allow_credentials=True,  # クッキーなどの認証情報の送信を許可するかどうか
+        allow_methods=["*"],  # 許可するHTTPメソッド（"*"はすべて許可）
+        allow_headers=["*"],  # 許可するHTTPヘッダー（"*"はすべて許可）
+    )

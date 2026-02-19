@@ -3,13 +3,12 @@ from fastapi import Depends
 from sqlmodel import create_engine, SQLModel, Session
 
 # create_allの前にDBのテーブル設計を読み込んでいる必要があるのでインポート
+from src.core.config import settings
 from src.models.users import User
 from src.models.movies import Movie
 
 
-SQLITE_URL = "sqlite:///./movies.db"
-
-engine = create_engine(SQLITE_URL, connect_args={"check_same_thread": False})
+engine = create_engine(str(settings.SQLALCHEMY_DATABASE_URI))
 
 
 # DBとテーブル作成

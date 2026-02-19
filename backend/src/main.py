@@ -1,55 +1,27 @@
-from fastapi import FastAPI, HTTPException, Response, status
+from fastapi import APIRouter, FastAPI
 
-from src.schemas.movies import MovieCreate, MovieResponse, MovieUpdate
-from src.crud.movie import (
-    create_movie,
-    get_all_movies,
-    get_movie,
-    update_movie,
-    delete_movie,
-)
-from src.core.database import SessionDep
-from src.core.middleware import setup_middleware
+from src.core.config import settings
+from src.core.middleware import custom_generate_unique_id, setup_middleware
 from src.core.lifespans import lifespan
+from src.router import login, movies, users
 
 # @app.on_eventが非推奨のため、推奨されているlifespanを使用
 # lifespanを渡してDB作成
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    lifespan=lifespan,
+    title=settings.PROJECT_NAME,
+    openapi_url=f"{settings.API_STR}/openapi.json",
+    generate_unique_id_function=custom_generate_unique_id,
+)
 
 # ミドルウェア
 setup_middleware(app)
 
+# routerディレクトリからそれぞれのrouterをappに登録
+api_router = APIRouter()
+api_router.include_router(users.router)
+api_router.include_router(movies.router)
+api_router.include_router(login.router)
 
-@app.post("/movies", response_model=MovieResponse, status_code=status.HTTP_201_CREATED)
-def add_movie(movie: MovieCreate, session: SessionDep):
-    return create_movie(movie, session)
-
-
-@app.get("/movies", response_model=list[MovieResponse])
-def list_movies(session: SessionDep):
-    return get_all_movies(session)
-
-
-@app.get("/movies/{movie_id}", response_model=MovieResponse)
-def read_movie(movie_id: int, session: SessionDep):
-    movie = get_movie(movie_id, session)
-    if movie is None:
-        raise HTTPException(status_code=404, detail="Movie not found")
-    return movie
-
-
-@app.put("/movies/{movie_id}", response_model=MovieResponse)
-def update_movie_info(movie_id: int, movie: MovieUpdate, session: SessionDep):
-    updated = update_movie(movie_id, movie, session)
-    if updated is None:
-        raise HTTPException(status_code=404, detail="Movie not found")
-    return updated
-
-
-# 204はレスポンスが禁止なので、Responseを明示してbodyを返さない
-@app.delete("/movies/{movie_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_movie_info(movie_id: int, session: SessionDep) -> Response:
-    deleted = delete_movie(movie_id, session)
-    if deleted is None:
-        raise HTTPException(status_code=404, detail="Movie not found")
-    return Response(status_code=status.HTTP_204_NO_CONTENT)
+# 各ルーティングの先頭に環境変数のAPI_STRをつける
+app.include_router(api_router, prefix=settings.API_STR)
