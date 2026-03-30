@@ -1,4 +1,4 @@
-import { getMovieIdApi, searchMoviesApi } from "./api";
+import { getMovieIdApi, searchMoviesApi } from "./api/item";
 import { getMovieIdMock, searchMoviesMock } from "./mock/mock";
 
 // .envからMockを使用するか判別

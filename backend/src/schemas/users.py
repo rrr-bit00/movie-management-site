@@ -8,7 +8,7 @@ from pydantic import EmailStr
 class UserBase(SQLModel):
     username: str = Field(unique=True, min_length=1, max_length=20)
     # EmailStrはminを設定しなくても空文字列を排除
-    email: EmailStr | None = Field(unique=True, index=True, max_length=255)
+    email: EmailStr = Field(unique=True, index=True, max_length=255)
     is_active: bool = Field(default=True)
 
 
@@ -20,8 +20,8 @@ class UserCreate(UserBase):
 # アカウント作成（一般ユーザー用）
 class UserRegister(SQLModel):
     username: str = Field(min_length=1, max_length=20)
+    email: EmailStr = Field(max_length=255)
     password: str = Field(min_length=8, max_length=20)
-    email: EmailStr | None = Field(max_length=255)
 
 
 # 編集用（一般ユーザー用）

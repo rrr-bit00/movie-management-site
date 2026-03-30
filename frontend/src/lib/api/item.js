@@ -27,7 +27,7 @@ export async function searchMoviesApi(q) {
         `${API}/movies?query=${encodeURIComponent(q)}`,
         { cache: "no-store" }
     )
-
+    console.log(res)
     if (!res.ok) {
         const body = await res.text()
         console.log("status:", res.status, "body:", body)

@@ -1,7 +1,8 @@
 from sqlmodel import Session
+from pydantic import EmailStr
 
 from src.core.security import verify_password
-from src.crud.users import get_user_by_name, set_hash_password
+from src.crud.users import get_user_by_email, set_hash_password
 from src.models.users import User
 
 
@@ -10,11 +11,11 @@ DUMMY_HASH = "$argon2id$v=19$m=65536,t=3,p=4$3cpnyD27TIoCfrodA5OrXw$elfbDgEQ7FU/
 
 
 # ログイン時の認証用関数
-def authenticate(*, session: Session, username: str, password: str) -> User | None:
-    db_user = get_user_by_name(session=session, username=username)
+def authenticate(*, session: Session, email: EmailStr, password: str) -> User | None:
+    db_user = get_user_by_email(session=session, email=email)
     if not db_user:
         # パスワードを検証することでタイミング攻撃を防止。
-        # ユーザー名が存在するかどうかに関わらず応答時間を同じにできる。
+        # メールアドレスが存在するかどうかに関わらず応答時間を同じにできる。
         verify_password(password, DUMMY_HASH)
         return None
 

@@ -1,5 +1,6 @@
 from typing import Any
 from sqlmodel import Session, select
+from pydantic import EmailStr
 
 from src.core.security import get_password_hash
 from src.deps import CurrentUser
@@ -8,8 +9,8 @@ from src.schemas.message import Message
 from src.schemas.users import UpdatePassword, UserCreate, UserUpdateMe
 
 
-def get_user_by_name(session: Session, username: str) -> User | None:
-    statement = select(User).where(User.username == username)
+def get_user_by_email(session: Session, email: EmailStr) -> User | None:
+    statement = select(User).where(User.email == email)
     session_user = session.exec(statement).first()
     return session_user
 
