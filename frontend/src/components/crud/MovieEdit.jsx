@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import MovieForm from "./MovieForm";
-import { updateMovieApi } from "@/lib/api";
+import { updateMovieApi } from "@/lib/api/item";
 
 
 export default function MovieEdit({ movie }) {

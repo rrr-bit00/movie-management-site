@@ -1,3 +1,5 @@
+import uuid
+
 from typing import Annotated
 
 from fastapi.security import OAuth2PasswordBearer
@@ -21,26 +23,40 @@ TokenDep = Annotated[str, Depends(reusable_oauth2)]
 
 # 認証を通してユーザーを取得する関数
 def get_current_user(session: SessionDep, token: TokenDep) -> User:
+    # 検証とUserの取得失敗時に401を返したいのでまとめる
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="認証情報を検証できませんでした",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
     # 認証を検証する
     try:
         payload = jwt.decode(
-            token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
+            token,
+            settings.SECRET_KEY,
+            algorithms=[settings.ALGORITHM],
+            options={"require": ["sub", "exp"]},
         )
         token_data = TokenPayload(**payload)
-    # 検証に失敗した場合、403のステータスコードを返す
+
+        if token_data.sub is None:
+            raise credentials_exception
+
+        # subが文字列なので、一応DB接続前にUUIDに変換しておく
+        user_id = uuid.UUID(token_data.sub)
     except (InvalidTokenError, ValidationError):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="認証情報を検証できませんでした",
-        )
+        raise credentials_exception
     # カレントuserを取得
-    user = session.get(User, token_data.sub)
-    # userがなければ404を返す
+    user = session.get(User, user_id)
     if not user:
-        raise HTTPException(status_code=404, detail="アカウントが見つかりませんでした")
+        raise credentials_exception
     # userがあっても、activeじゃなければ400を返す
     if not user.is_active:
-        raise HTTPException(status_code=400, detail="アカウントが有効ではありません")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="アカウントが有効ではありません",
+        )
     # 全て通れば、userを返す
     return user
 

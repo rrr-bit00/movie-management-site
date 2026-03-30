@@ -1,11 +1,11 @@
 'use client'
 
 import MovieForm from "@/components/crud/MovieForm";
-import { createMovieApi } from "@/lib/api";
+import { createMovieApi } from "@/lib/api/item";
 import { useRouter } from "next/navigation"
 
 
-export default function page() {
+export default function Page() {
     const router = useRouter();
 
     return (

@@ -20,6 +20,7 @@ router = APIRouter(prefix="/users", tags=["users"])
 
 
 # ユーザー自身のアカウントを取得
+# tokenを認証するCurrentUserをDIとして注入するため、エラー処理などは新たにいらない。
 @router.get("/me", response_model=UserResponse)
 def read_user_me(current_user: CurrentUser) -> Any:
     return current_user
@@ -30,15 +31,13 @@ def read_user_me(current_user: CurrentUser) -> Any:
 def update_user_me(
     *, session: SessionDep, current_user: CurrentUser, user_in: UserUpdateMe
 ) -> Any:
-    # ユーザー名の変更があるか判定
-    if user_in.username:
-        existing_user = users.get_user_by_name(
-            session=session, username=user_in.username
-        )
+    # メールアドレスの変更があるか判定
+    if user_in.email:
+        existing_user = users.get_user_by_email(session=session, email=user_in.email)
         # アカウントがあって、カレントユーザーでなければエラー
         if existing_user and existing_user.id != current_user.id:
             raise HTTPException(
-                status_code=409, detail="すでに使用されているユーザー名です"
+                status_code=409, detail="このメールアドレスはすでに使用されています"
             )
     updated_user = users.update_current_user(
         session=session, update_user=user_in, current_user=current_user
@@ -83,11 +82,11 @@ def delete_user_me(session: SessionDep, current_user: CurrentUser) -> Message:
 # ログイン前にアカウントを新規作成
 @router.post("/signup", response_model=UserResponse)
 def register_user(session: SessionDep, user_in: UserRegister) -> Any:
-    user = users.get_user_by_name(session, user_in.username)
-    # 既にユーザー名が登録されていればエラー
+    user = users.get_user_by_email(session, user_in.email)
+    # 既にメールアドレスが登録されていればエラー
     if user:
         raise HTTPException(
-            status_code=400, detail="このユーザー名は既に使用されています"
+            status_code=400, detail="このメールアドレスはすでに登録されています"
         )
     user_create = UserCreate.model_validate(user_in)
     user = users.create_user(session, user_create)

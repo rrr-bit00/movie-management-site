@@ -2,7 +2,7 @@ from sqlmodel import SQLModel
 
 
 class TokenPayload(SQLModel):
-    sub: str | None = None
+    sub: str
 
 
 class Token(SQLModel):
