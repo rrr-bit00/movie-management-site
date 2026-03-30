@@ -21,8 +21,20 @@ export async function createUser({ username, email, password }) {
     if (!res.ok) {
         // うまくいかなかった場合に、resにあるerrorログの取得を試みる
         const errorData = await res.json().catch(() => null)
-        // errorDataのdetailが文字列ならば、そのままdetailを返す
-        throw new Error(errorData?.detail || "アカウントの作成に失敗しました")
+        const detail = errorData?.detail
+
+        if (typeof detail === "string") {
+            throw new Error(detail)
+        }
+
+        if (Array.isArray(detail) && detail.length > 0) {
+            const firstMessage = detail[0]?.msg
+            if (typeof firstMessage === "string") {
+                throw new Error(firstMessage)
+            }
+        }
+
+        throw new Error("アカウントの作成に失敗しました")
     }
     return res.json()
 }

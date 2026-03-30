@@ -88,6 +88,9 @@ def register_user(session: SessionDep, user_in: UserRegister) -> Any:
         raise HTTPException(
             status_code=400, detail="このメールアドレスはすでに登録されています"
         )
+    user_by_username = users.get_user_by_username(session, user_in.username)
+    if user_by_username:
+        raise HTTPException(status_code=400, detail="このユーザー名はすでに登録されています")
     user_create = UserCreate.model_validate(user_in)
     user = users.create_user(session, user_create)
     return user

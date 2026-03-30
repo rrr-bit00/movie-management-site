@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 
-import { SignupFormSchema } from "../validation";
+import { LoginFormSchema, SignupFormSchema } from "../validation";
 import { createUser } from "../api/auth";
 import { createSession, deleteSession } from "../session";
 import { redirect } from "next/navigation";
@@ -42,6 +42,33 @@ export async function signup(state, formData) {
     // Session作成後にHOMEにリダイレクト
     redirect(`/movies`)
 
+}
+
+// ログイン
+export async function login(state, formData) {
+    const validatedFields = LoginFormSchema.safeParse({
+        email: formData.get("email"),
+        password: formData.get("password"),
+    })
+
+    if (!validatedFields.success) {
+        const flattened = z.flattenError(validatedFields.error)
+        return {
+            errors: flattened.fieldErrors,
+        }
+    }
+
+    const { email, password } = validatedFields.data
+
+    try {
+        await createSession({ email, password })
+    } catch (error) {
+        return {
+            message: error instanceof Error ? error.message : "ログインに失敗しました",
+        }
+    }
+
+    redirect("/movies")
 }
 
 // ログアウト

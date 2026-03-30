@@ -1,3 +1,5 @@
+import uuid
+
 from sqlmodel import Session, select
 
 from src.deps import CurrentUser
@@ -14,15 +16,25 @@ def create_movie(session: Session, movie: MovieCreate, current_user: CurrentUser
 
 
 def get_all_movies(session: Session, current_user: CurrentUser):
-    return session.exec(select(Movie)).all()
+    statement = select(Movie).where(Movie.owner_id == current_user.id)
+    return session.exec(statement).all()
 
 
-def get_movie(movie_id: int, session: Session):
-    return session.get(Movie, movie_id)
+def get_movie(movie_id: uuid.UUID, session: Session, current_user: CurrentUser):
+    statement = select(Movie).where(
+        Movie.id == movie_id,
+        Movie.owner_id == current_user.id,
+    )
+    return session.exec(statement).first()
 
 
-def update_movie(movie_id: int, movie_data: MovieUpdate, session: Session):
-    db_movie = session.get(Movie, movie_id)
+def update_movie(
+    movie_id: uuid.UUID,
+    movie_data: MovieUpdate,
+    session: Session,
+    current_user: CurrentUser,
+):
+    db_movie = get_movie(movie_id, session, current_user)
     if db_movie is None:
         return None
 
@@ -37,8 +49,8 @@ def update_movie(movie_id: int, movie_data: MovieUpdate, session: Session):
     return db_movie
 
 
-def delete_movie(movie_id: int, session: Session):
-    db_movie = session.get(Movie, movie_id)
+def delete_movie(movie_id: uuid.UUID, session: Session, current_user: CurrentUser):
+    db_movie = get_movie(movie_id, session, current_user)
     if db_movie is None:
         return None
     session.delete(db_movie)

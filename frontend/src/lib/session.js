@@ -1,36 +1,79 @@
 import "server-only"
 import { cookies } from "next/headers"
+import { notFound, redirect } from "next/navigation"
 
-// clientとserver両方に対応
-const API = typeof window === (process.env.API_INTERNAL_BASE_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL) ?
-    process.env.NEXT_PUBLIC_API_BASE_URL : "";
+function getApiBaseUrl() {
+    const apiBaseUrl =
+        process.env.API_INTERNAL_BASE_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL
+    if (!apiBaseUrl) {
+        notFound()
+    }
+    return apiBaseUrl
+}
+
+function buildAuthHeaders(token, headers = {}) {
+    return {
+        ...headers,
+        Authorization: `Bearer ${token}`,
+    }
+}
+
+export async function getAccessToken() {
+    const cookieStore = await cookies()
+    return cookieStore.get("access_token")?.value
+}
+
+export async function getAccessTokenOrThrow() {
+    const token = await getAccessToken()
+    if (!token) {
+        throw new Error("認証が必要です。再度ログインしてください。")
+    }
+    return token
+}
+
+export async function fetchWithAuth(path, init = {}) {
+    const apiBaseUrl = getApiBaseUrl()
+    const token = await getAccessTokenOrThrow()
+    const headers = buildAuthHeaders(token, init.headers)
+
+    return fetch(`${apiBaseUrl}${path}`, {
+        ...init,
+        headers,
+        cache: init.cache ?? "no-store",
+    })
+}
 
 // セッションの確認
 export async function getSession() {
-    // Cookieにアクセストークンがあるか確認
-    const cookieStore = await cookies()
-    const token = cookieStore.get("access_token")?.value
-
-    if (!token) {
-        throw new Error("セッションが切れました。再度ログインしてください。")
-    }
-
-    const res = await fetch(
-        `${API}/users/me`, {
+    const res = await fetchWithAuth("/users/me", {
         method: "GET",
-        headers: {
-            "Authorization": `Breaer${token}`,
-        },
-        cache: "no-store"
+    })
+
+    if (res.status === 401) {
+        throw new Error("セッションが無効です。再度ログインしてください。")
     }
-    )
+
+    if (!res.ok) {
+        throw new Error("セッション情報の取得に失敗しました。")
+    }
+
+    return res.json()
+}
+
+export async function requireSession() {
+    try {
+        return await getSession()
+    } catch {
+        redirect("/login")
+    }
 }
 
 
 // セッションの作成
 export async function createSession({ email, password }) {
+    const apiBaseUrl = getApiBaseUrl()
     const res = await fetch(
-        `${API}/login/access-token`, {
+        `${apiBaseUrl}/login/access-token`, {
         method: "POST",
         headers: {
             // FastAPI側のOAuth2では、form-dataに送る必要があるため、フォーム送信用にする
@@ -43,7 +86,8 @@ export async function createSession({ email, password }) {
         })
     })
     if (!res.ok) {
-        throw new Error("ログインに失敗しました")
+        const errorData = await res.json().catch(() => null)
+        throw new Error(errorData?.detail || "ログインに失敗しました")
     }
     // tokenにFastAPIから返ってきたTokenを格納
     const token = await res.json()
