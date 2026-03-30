@@ -1,46 +1,17 @@
+import "server-only";
 import { notFound } from "next/navigation";
-
-// clientとserver両方に対応
-const API = typeof window === "undefined" ?
-    (process.env.API_INTERNAL_BASE_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL)
-    : process.env.NEXT_PUBLIC_API_BASE_URL;
+import { fetchWithAuth } from "../session";
 
 export async function searchMoviesApi(q) {
-
-    // // qが空なら全取得
-    // const url = q?.trim()
-    //     ? `${API}/movies?query=${encodeURIComponent(q)}`
-    //     : `${API}/movies`;
-
-    // console.log(url)
-    // const res = await fetch(url,
-    //     { cache: "no-store" }
-    // )
-
-    // if (!res.ok) {
-    //     const body = await res.text()
-    //     console.log("status:", res.status, "body:", body)
-    //     throw new Error("検索に失敗しました")
-    // }
-
-    const res = await fetch(
-        `${API}/movies?query=${encodeURIComponent(q)}`,
-        { cache: "no-store" }
-    )
-    console.log(res)
+    const res = await fetchWithAuth(`/movies?query=${encodeURIComponent(q ?? "")}`)
     if (!res.ok) {
-        const body = await res.text()
-        console.log("status:", res.status, "body:", body)
         throw new Error("検索に失敗しました")
     }
     return res.json()
 }
 
 export async function getMovieIdApi(id) {
-    const res = await fetch(
-        `${API}/movies/${id}`,
-        { cache: "no-store" }
-    )
+    const res = await fetchWithAuth(`/movies/${id}`)
     if (res.status === 404) notFound();
     if (!res.ok) {
         throw new Error("詳細の取得に失敗しました")
@@ -49,13 +20,11 @@ export async function getMovieIdApi(id) {
 }
 
 export async function createMovieApi(body) {
-    const res = await fetch(
-        `${API}/movies`, {
+    const res = await fetchWithAuth(`/movies`, {
         method: "POST",
         headers: { "Content-Type": "application/json" }, // メタデータの宣言(JSONを渡す)
         body: JSON.stringify(body),
-    }
-    )
+    })
     if (!res.ok) {
         throw new Error("作成に失敗しました")
     }
@@ -63,13 +32,11 @@ export async function createMovieApi(body) {
 }
 
 export async function updateMovieApi(id, body) {
-    const res = await fetch(
-        `${API}/movies/${id}`, {
-        method: "PUT",
+    const res = await fetchWithAuth(`/movies/${id}`, {
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
-    }
-    )
+    })
     if (!res.ok) {
         throw new Error("更新に失敗しました")
     }
@@ -77,11 +44,9 @@ export async function updateMovieApi(id, body) {
 }
 
 export async function deleteMovieApi(id) {
-    const res = await fetch(
-        `${API}/movies/${id}`, {
+    const res = await fetchWithAuth(`/movies/${id}`, {
         method: "DELETE",
-    }
-    )
+    })
     if (!res.ok) {
         const text = await res.text().catch(() => "");
         throw new Error(`削除に失敗しました (${res.status}) ${text}`);

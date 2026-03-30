@@ -2,11 +2,12 @@ import Link from "next/link"
 import MovieDetail from "@/components/crud/MovieDetail"
 import { getMovieById } from "@/lib/search"
 import { Button } from "@/components/ui/button"
-import { notFound } from "next/navigation"
+import { requireSession } from "@/lib/session"
 
 export default async function page({ params }) {
+    await requireSession()
+
     const { id } = await params
-    if (!/^\d+$/.test(id)) notFound();
 
     const movie = await getMovieById(id)
     // params（id）のDataを取得する

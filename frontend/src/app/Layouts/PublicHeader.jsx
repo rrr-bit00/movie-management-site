@@ -1,5 +1,6 @@
 import Link from "next/link"
 import SearchInput from "@/components/ui/search-input"
+import { logout } from "@/lib/actions/auth"
 
 import {
   NavigationMenu,
@@ -33,6 +34,11 @@ export default function PublicHeader() {
           </NavigationMenu>
           <div className="flex items-center gap-4">
             <SearchInput placeholder="作品や監督、公開年から検索" className="w-[200px] lg:w-[300px]" />
+            <form action={logout}>
+              <button type="submit" className="text-sm font-semibold text-blue-700 hover:underline">
+                ログアウト
+              </button>
+            </form>
           </div>
         </div>
       </header >

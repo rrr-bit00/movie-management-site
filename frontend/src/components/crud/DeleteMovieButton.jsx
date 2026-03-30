@@ -1,6 +1,6 @@
 'use client'
 
-import { deleteMovieApi } from "@/lib/api/item";
+import { removeMovie } from "@/lib/actions/movies";
 import { useRouter } from "next/navigation"
 import { Button } from "../ui/button";
 import { useState } from "react";
@@ -26,7 +26,7 @@ export default function DeleteMovieButton({ id }) {
     const handleDelete = async () => {
         try {
             setDeleting(true);
-            await deleteMovieApi(id);
+            await removeMovie(id);
 
             // 成功したらalertDialogを閉じる
             setOpen(false);

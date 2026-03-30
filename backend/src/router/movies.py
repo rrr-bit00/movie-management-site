@@ -1,3 +1,5 @@
+import uuid
+
 from fastapi import APIRouter, HTTPException, Response, status
 
 from src.deps import CurrentUser
@@ -19,16 +21,21 @@ def list_movies(session: SessionDep, current_user: CurrentUser):
 
 
 @router.get("/{movie_id}", response_model=MovieResponse)
-def read_movie(movie_id: int, session: SessionDep):
-    movie = movies.get_movie(movie_id, session)
+def read_movie(movie_id: uuid.UUID, session: SessionDep, current_user: CurrentUser):
+    movie = movies.get_movie(movie_id, session, current_user)
     if movie is None:
         raise HTTPException(status_code=404, detail="Movie not found")
     return movie
 
 
 @router.patch("/{movie_id}", response_model=MovieResponse)
-def update_movie_info(movie_id: int, movie_in: MovieUpdate, session: SessionDep):
-    updated = movies.update_movie(movie_id, movie_in, session)
+def update_movie_info(
+    movie_id: uuid.UUID,
+    movie_in: MovieUpdate,
+    session: SessionDep,
+    current_user: CurrentUser,
+):
+    updated = movies.update_movie(movie_id, movie_in, session, current_user)
     if updated is None:
         raise HTTPException(status_code=404, detail="Movie not found")
     return updated
@@ -36,8 +43,12 @@ def update_movie_info(movie_id: int, movie_in: MovieUpdate, session: SessionDep)
 
 # 204はレスポンスが禁止なので、Responseを明示してbodyを返さない
 @router.delete("/{movie_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_movie_info(movie_id: int, session: SessionDep) -> Response:
-    deleted = movies.delete_movie(movie_id, session)
+def delete_movie_info(
+    movie_id: uuid.UUID,
+    session: SessionDep,
+    current_user: CurrentUser,
+) -> Response:
+    deleted = movies.delete_movie(movie_id, session, current_user)
     if deleted is None:
         raise HTTPException(status_code=404, detail="Movie not found")
     return Response(status_code=status.HTTP_204_NO_CONTENT)
