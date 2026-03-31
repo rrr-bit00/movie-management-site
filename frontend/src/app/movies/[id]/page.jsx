@@ -15,9 +15,11 @@ export default async function page({ params }) {
         <>
             <MovieDetail movie={movie} canManage={canManage} />
             {canManage && (
-                <Button asChild>
-                    <Link href={`/movies/${id}/edit`}>映画情報の編集</Link>
-                </Button>
+                <div className="mx-auto max-w-4xl px-4 pb-8">
+                    <Button asChild variant="outline" className="w-full border-slate-300 bg-white text-slate-800 hover:bg-slate-50">
+                        <Link href={`/movies/${id}/edit`}>映画情報を更新</Link>
+                    </Button>
+                </div>
             )}
         </>
     )

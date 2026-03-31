@@ -10,7 +10,13 @@ export default function MovieEdit({ movie }) {
 
     return (
         <MovieForm
-            initialValues={{ title: movie.title, description: movie.description, director: movie.director, released_year: String(movie.released_year ?? "") }}
+            initialValues={{
+                title: movie.title,
+                description: movie.description,
+                director: movie.director,
+                released_year: String(movie.released_year ?? ""),
+                image: movie.image ?? "",
+            }}
             submitLabel="更新"
             onSubmit={async (values) => {
                 await updateMovie(movie.id, values);

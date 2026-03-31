@@ -69,11 +69,28 @@ export async function requireSession() {
 }
 
 export async function getSessionOrNull() {
-    try {
-        return await getSession()
-    } catch {
+    const token = await getAccessToken()
+    if (!token) {
         return null
     }
+
+    const apiBaseUrl = getApiBaseUrl()
+    const headers = buildAuthHeaders(token)
+    const res = await fetch(`${apiBaseUrl}/users/me`, {
+        method: "GET",
+        headers,
+        cache: "no-store",
+    })
+
+    if (res.status === 401) {
+        return null
+    }
+
+    if (!res.ok) {
+        throw new Error("セッション確認に失敗しました。")
+    }
+
+    return res.json()
 }
 
 
