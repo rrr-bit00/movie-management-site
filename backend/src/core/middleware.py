@@ -4,7 +4,7 @@ from fastapi.routing import APIRoute
 from src.core.config import settings
 
 # ORIGINS
-origins = [settings.FRONTEND_HOST]
+origins = settings.all_cors_origins
 
 
 # OpenAPIの中でoperationIdという各エンドポイントの前にtagsをつける
