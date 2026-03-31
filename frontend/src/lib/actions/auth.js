@@ -47,7 +47,7 @@ export async function signup(state, formData) {
 // ログイン
 export async function login(state, formData) {
     const validatedFields = LoginFormSchema.safeParse({
-        email: formData.get("email"),
+        identifier: formData.get("identifier"),
         password: formData.get("password"),
     })
 
@@ -58,10 +58,10 @@ export async function login(state, formData) {
         }
     }
 
-    const { email, password } = validatedFields.data
+    const { identifier, password } = validatedFields.data
 
     try {
-        await createSession({ email, password })
+        await createSession({ identifier, password })
     } catch (error) {
         return {
             message: error instanceof Error ? error.message : "ログインに失敗しました",

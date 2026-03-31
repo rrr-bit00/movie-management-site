@@ -1,6 +1,7 @@
 import Link from "next/link"
 import SearchInput from "@/components/ui/search-input"
 import { logout } from "@/lib/actions/auth"
+import { getSessionOrNull } from "@/lib/session"
 
 import {
   NavigationMenu,
@@ -9,7 +10,10 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu"
 
-export default function PublicHeader() {
+export default async function PublicHeader() {
+  const session = await getSessionOrNull()
+  const isLoggedIn = Boolean(session)
+
   return (
     <div>
       <header className="border-b bg-blue-200">
@@ -23,22 +27,35 @@ export default function PublicHeader() {
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
-              <NavigationMenuItem className="mx-4">
-                <NavigationMenuLink className="font-bold text-lg" asChild>
-                  <Link href="/movies/new">
-                    映画登録
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
+              {isLoggedIn && (
+                <NavigationMenuItem className="mx-4">
+                  <NavigationMenuLink className="font-bold text-lg" asChild>
+                    <Link href="/movies/new">
+                      映画登録
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              )}
             </NavigationMenuList>
           </NavigationMenu>
           <div className="flex items-center gap-4">
             <SearchInput placeholder="作品や監督、公開年から検索" className="w-[200px] lg:w-[300px]" />
-            <form action={logout}>
-              <button type="submit" className="text-sm font-semibold text-blue-700 hover:underline">
-                ログアウト
-              </button>
-            </form>
+            {isLoggedIn ? (
+              <form action={logout}>
+                <button type="submit" className="text-sm font-semibold text-blue-700 hover:underline">
+                  ログアウト
+                </button>
+              </form>
+            ) : (
+              <div className="flex items-center gap-3 text-sm font-semibold">
+                <Link href="/login" className="text-blue-700 hover:underline">
+                  ログイン
+                </Link>
+                <Link href="/register" className="text-emerald-700 hover:underline">
+                  新規登録
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </header >

@@ -1,10 +1,7 @@
 import MovieList from "@/components/crud/MovieList"
 import { searchMovies } from "@/lib/search";
-import { requireSession } from "@/lib/session";
 
 export default async function MoviePage({ searchParams }) {
-    await requireSession()
-
     const { q } = await searchParams
     // クエリがあるか判定
     const query = q ?? ''

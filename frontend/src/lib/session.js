@@ -32,8 +32,8 @@ export async function getAccessTokenOrThrow() {
 }
 
 export async function fetchWithAuth(path, init = {}) {
-    const apiBaseUrl = getApiBaseUrl()
     const token = await getAccessTokenOrThrow()
+    const apiBaseUrl = getApiBaseUrl()
     const headers = buildAuthHeaders(token, init.headers)
 
     return fetch(`${apiBaseUrl}${path}`, {
@@ -68,9 +68,22 @@ export async function requireSession() {
     }
 }
 
+export async function getSessionOrNull() {
+    try {
+        return await getSession()
+    } catch {
+        return null
+    }
+}
+
 
 // セッションの作成
-export async function createSession({ email, password }) {
+export async function createSession({ identifier, email, password }) {
+    const loginId = identifier ?? email
+    if (!loginId) {
+        throw new Error("ログインIDが指定されていません")
+    }
+
     const apiBaseUrl = getApiBaseUrl()
     const res = await fetch(
         `${apiBaseUrl}/login/access-token`, {
@@ -79,9 +92,10 @@ export async function createSession({ email, password }) {
             // FastAPI側のOAuth2では、form-dataに送る必要があるため、フォーム送信用にする
             "Content-Type": "application/x-www-form-urlencoded",
         },
-        // バックエンドの受け取りがusernameとpasswordで固定なので、usernameにemailを入れる
+        // バックエンドの受け取りは username / password 固定のため、
+        // username には「ユーザー名またはメールアドレス」を入れる
         body: new URLSearchParams({
-            username: email,
+            username: loginId,
             password,
         })
     })
