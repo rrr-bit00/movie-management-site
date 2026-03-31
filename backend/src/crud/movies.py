@@ -15,8 +15,22 @@ def create_movie(session: Session, movie: MovieCreate, current_user: CurrentUser
     return db_movie
 
 
-def get_all_movies(session: Session, current_user: CurrentUser):
+def get_all_movies(
+    session: Session,
+    current_user: CurrentUser,
+    query: str | None = None,
+):
     statement = select(Movie).where(Movie.owner_id == current_user.id)
+
+    keyword = query.strip() if query else ""
+    if keyword:
+        pattern = f"%{keyword}%"
+        statement = statement.where(
+            (Movie.title.ilike(pattern))
+            | (Movie.director.ilike(pattern))
+            | (Movie.released_year.ilike(pattern))
+        )
+
     return session.exec(statement).all()
 
 

@@ -16,8 +16,12 @@ def add_movie(session: SessionDep, movie_in: MovieCreate, current_user: CurrentU
 
 
 @router.get("/", response_model=list[MovieResponse])
-def list_movies(session: SessionDep, current_user: CurrentUser):
-    return movies.get_all_movies(session, current_user)
+def list_movies(
+    session: SessionDep,
+    current_user: CurrentUser,
+    query: str | None = None,
+):
+    return movies.get_all_movies(session, current_user, query=query)
 
 
 @router.get("/{movie_id}", response_model=MovieResponse)

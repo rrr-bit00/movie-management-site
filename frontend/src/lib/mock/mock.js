@@ -12,7 +12,7 @@ export async function searchMoviesMock(q) {
     return mocksData.filter(movie => {
         const titleMatch = movie.title.toLowerCase().includes(q)
         const directorMatch = movie.director.toLowerCase().includes(q)
-        const yearMatch = movie.director.toLowerCase().includes(q)
+        const yearMatch = String(movie.released_year ?? "").toLowerCase().includes(q)
 
         return titleMatch || directorMatch || yearMatch
     })
