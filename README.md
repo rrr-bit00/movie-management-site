@@ -8,7 +8,7 @@ Next.js（フロントエンド）と FastAPI（バックエンド）、PostgreS
 - Backend: FastAPI, SQLModel
 - Database: PostgreSQL
 - Auth: JWT + httpOnly Cookie セッション
-- Infrastructure (想定): Vercel / Render or Railway
+- Infrastructure: Vercel / Render or Railway
 
 ## デザインについて（Codex使用）
 本プロジェクトのログインページ・登録ページ・ルートページのスタイル調整の一部には **Codex** を使用しています。  
@@ -34,7 +34,7 @@ UI 方針や実装内容は最終的に作者の意図で調整しています�
 ## 使い方
 1. リポジトリを取得
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/rrr-bit00/movie-management-site.git
 cd movie-management-site
 ```
 
