@@ -4,7 +4,7 @@
 Next.js（フロントエンド）と FastAPI（バックエンド）、PostgreSQL（DB）で構成されています。
 
 ## 公開URL
-- App: `https://movie-management-site-one.vercel.app/`
+- App: [https://movie-management-site-one.vercel.app/](https://movie-management-site-one.vercel.app/)
 
 ## 使用技術
 - Frontend: Next.js (App Router), React, Tailwind CSS
