@@ -36,7 +36,7 @@ class Settings(BaseSettings):
         # Settingsクラスにない変数は無視
         extra="ignore",
     )
-    API_STR: str = "api/v1"
+    API_STR: str = "/api/v1"
     # 開発用に適当な値をセット（local以外で生成したsecret_keyを.envから読み込む）
     SECRET_KEY: str = "localDevelopment"
     # 期限を設定
