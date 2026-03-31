@@ -2,7 +2,7 @@
 
 import DeleteMovieButton from "./DeleteMovieButton"
 
-export default function MovieDetail({ movie }) {
+export default function MovieDetail({ movie, canManage = false }) {
   if (!movie) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -47,9 +47,11 @@ export default function MovieDetail({ movie }) {
             </p>
           </div>
 
-          <div className="pt-4">
-            <DeleteMovieButton id={movie.id} />
-          </div>
+          {canManage && (
+            <div className="pt-4">
+              <DeleteMovieButton id={movie.id} />
+            </div>
+          )}
         </div>
       </div>
     </div>

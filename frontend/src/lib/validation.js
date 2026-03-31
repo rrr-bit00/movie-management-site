@@ -23,6 +23,9 @@ export const SignupFormSchema = z.object({
 })
 
 export const LoginFormSchema = z.object({
-    email: z.email({ error: "有効なメールアドレスを入力してください" }).trim(),
+    identifier: z
+        .string()
+        .min(1, { error: "ユーザー名またはメールアドレスを入力してください" })
+        .trim(),
     password: z.string().min(1, { error: "パスワードを入力してください" }).trim(),
 })

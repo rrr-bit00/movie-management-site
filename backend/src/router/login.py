@@ -18,10 +18,10 @@ router = APIRouter(tags=["login"])
 def login_access_token(
     session: SessionDep, form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
 ) -> Token:
-    # OAuth2PasswordRequestFormはフォームの項目名がusernameとpasswordで固定のため、
-    # emailにform_dataのusernameを入れる
+    # OAuth2PasswordRequestFormはフォーム項目名が username / password 固定。
+    # username には「ユーザー名またはメールアドレス」を入れる。
     user = authenticate(
-        session=session, email=form_data.username, password=form_data.password
+        session=session, identifier=form_data.username, password=form_data.password
     )
     if not user:
         raise HTTPException(
