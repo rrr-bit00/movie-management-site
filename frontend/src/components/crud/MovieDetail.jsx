@@ -14,15 +14,21 @@ export default function MovieDetail({ movie, canManage = false }) {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-        {/* 画像セクション */}
-        {/* <div className="relative h-96 bg-gradient-to-br from-slate-800 to-slate-900">
-          <img
-            className="w-full h-full object-contain p-8"
-            src={movie.image}
-            alt={movie.title}
-          />
+        <div className="relative h-96 bg-gradient-to-br from-slate-800 to-slate-900">
+          {/* 画像セクション */}
+          {movie.image ? (
+            <img
+              className="h-full w-full object-cover"
+              src={movie.image}
+              alt={movie.title}
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-slate-200">
+              No Image
+            </div>
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
-        </div> */}
+        </div>
 
         {/* 情報セクション */}
         <div className="p-8 space-y-6">

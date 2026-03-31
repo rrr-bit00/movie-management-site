@@ -8,6 +8,7 @@ class MovieBase(SQLModel):
     director: str = Field(min_length=1, max_length=255)
     description: str | None = Field(default=None, max_length=255)
     released_year: str | None = Field(default=None, max_length=4)
+    image: str | None = Field(default=None, max_length=2048)
 
 
 class MovieCreate(MovieBase):
@@ -19,6 +20,7 @@ class MovieUpdate(SQLModel):
     description: str | None = Field(default=None, max_length=255)
     director: str | None = Field(default=None, max_length=255)
     released_year: str | None = Field(default=None, max_length=4)
+    image: str | None = Field(default=None, max_length=2048)
 
 
 class MovieResponse(MovieBase):

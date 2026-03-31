@@ -26,7 +26,8 @@ export async function createMovieApi(body) {
         body: JSON.stringify(body),
     })
     if (!res.ok) {
-        throw new Error("作成に失敗しました")
+        const text = await res.text().catch(() => "")
+        throw new Error(`作成に失敗しました (${res.status}) ${text}`)
     }
     return res.json()
 }
