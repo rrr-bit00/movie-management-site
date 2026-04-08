@@ -1,33 +1,54 @@
+import os
+
+os.environ["RUN_DB_INIT_ON_STARTUP"] = "false"
+
 import pytest
 from fastapi.testclient import TestClient
-from sqlmodel import Session, SQLModel, create_engine
+from sqlmodel import SQLModel, Session, create_engine
 from sqlmodel.pool import StaticPool
 
 from src.main import app
-from src.core.database import get_session
+from src.models.users import User
+from src.deps import get_current_user
 
 sqlite_url = "sqlite://"
+sqlite_url = "sqlite://"
 test_engine = create_engine(
-    sqlite_url, connect_args={"check_same_thread": False}, poolclass=StaticPool
+    sqlite_url,
+    connect_args={"check_same_thread": False},
+    poolclass=StaticPool,
 )
 
 
 @pytest.fixture()
 def client():
-    # テストテーブルの作成
+    # テストテーブル、エンジンの作成
+    app.state.engine = test_engine
     SQLModel.metadata.create_all(test_engine)
 
-    # オーバーライド用関数
-    def override_get_session():
-        with Session(test_engine) as session:
-            yield session
+    # テストユーザーをDBに作る
+    with Session(test_engine) as session:
+        test_user = User(
+            username="testuser",
+            email="test@example.com",
+            hashed_password="dummy",
+            is_active=True,
+        )
+        session.add(test_user)
+        session.commit()
+        session.refresh(test_user)
 
-    # オーバーライド
-    app.dependency_overrides[get_session] = override_get_session
+    # 認証依存を override
+    def override_get_current_user():
+        return test_user
+
+    app.dependency_overrides[get_current_user] = override_get_current_user
 
     with TestClient(app) as c:
         yield c
 
-    # 削除
     app.dependency_overrides.clear()
     SQLModel.metadata.drop_all(test_engine)
+
+    if hasattr(app.state, "engine"):
+        del app.state.engine
