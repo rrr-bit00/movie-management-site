@@ -4,15 +4,19 @@ os.environ["RUN_DB_INIT_ON_STARTUP"] = "false"
 
 import pytest
 from fastapi.testclient import TestClient
-from sqlmodel import SQLModel, create_engine
+from sqlmodel import SQLModel, Session, create_engine
 from sqlmodel.pool import StaticPool
 
 from src.main import app
+from src.models.users import User
 from src.deps import get_current_user
 
 sqlite_url = "sqlite://"
+sqlite_url = "sqlite://"
 test_engine = create_engine(
-    sqlite_url, connect_args={"check_same_thread": False}, poolclass=StaticPool
+    sqlite_url,
+    connect_args={"check_same_thread": False},
+    poolclass=StaticPool,
 )
 
 
