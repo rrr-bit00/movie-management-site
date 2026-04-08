@@ -1,10 +1,13 @@
+import os
+
+os.environ["RUN_DB_INIT_ON_STARTUP"] = "false"
+
 import pytest
 from fastapi.testclient import TestClient
-from sqlmodel import Session, SQLModel, create_engine
+from sqlmodel import SQLModel, create_engine
 from sqlmodel.pool import StaticPool
 
 from src.main import app
-from src.core.database import get_session
 
 sqlite_url = "sqlite://"
 test_engine = create_engine(
@@ -14,20 +17,14 @@ test_engine = create_engine(
 
 @pytest.fixture()
 def client():
-    # テストテーブルの作成
+    # テストテーブル、エンジンの作成
+    app.state.engine = test_engine
     SQLModel.metadata.create_all(test_engine)
-
-    # オーバーライド用関数
-    def override_get_session():
-        with Session(test_engine) as session:
-            yield session
-
-    # オーバーライド
-    app.dependency_overrides[get_session] = override_get_session
 
     with TestClient(app) as c:
         yield c
 
-    # 削除
-    app.dependency_overrides.clear()
     SQLModel.metadata.drop_all(test_engine)
+
+    if hasattr(app.state, "engine"):
+        del app.state.engine
