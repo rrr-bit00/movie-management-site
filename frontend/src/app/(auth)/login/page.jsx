@@ -3,7 +3,7 @@ import LoginForm from "@/components/ui/login-form"
 
 export default function Page() {
     return (
-        <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,_#ffe8cc,_transparent_35%),linear-gradient(140deg,_#10131a,_#1a2532_55%,_#0f1117)] px-4 py-10 text-slate-100 md:px-8 md:py-14">
+        <main className="min-h-screen bg-[radial-gradient(circle_at_10%_0%,_#ffe6c9,_transparent_35%),linear-gradient(140deg,_#10131a,_#1a2532_55%,_#0f1117)] px-4 py-10 text-slate-100 md:px-8 md:py-14">
             <section className="mx-auto grid w-full max-w-6xl gap-6 md:grid-cols-2">
                 <div className="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm md:p-10">
                     <p className="text-xs uppercase tracking-[0.35em] text-amber-300">Now Showing</p>

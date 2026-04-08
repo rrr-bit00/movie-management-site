@@ -3,7 +3,7 @@ import SignupForm from "@/components/ui/signup-form";
 
 export default function Page() {
     return (
-        <main className="min-h-screen bg-[radial-gradient(circle_at_top_right,_#ffe4c7,_transparent_35%),linear-gradient(225deg,_#10131a,_#1a2532_55%,_#0f1117)] px-4 py-10 text-slate-100 md:px-8 md:py-14">
+        <main className="min-h-screen bg-[radial-gradient(circle_at_90%_20%,_#c9e6ff,_transparent_30%),linear-gradient(225deg,_#10131a,_#1a2532_55%,_#0f1117)] px-4 py-10 text-slate-100 md:px-8 md:py-14">
             <section className="mx-auto grid w-full max-w-6xl gap-6 md:grid-cols-2">
                 <section className="auth-panel-left rounded-3xl border border-white/20 bg-[#f6f1e8] p-8 text-slate-900 shadow-2xl md:p-10">
                     <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-700">Create Account</p>
