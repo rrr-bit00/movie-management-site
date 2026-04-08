@@ -11,9 +11,12 @@ def test_create_movie(client: TestClient):
             "title": "test1",
             "description": "lorem",
             "director": "John",
-            "released_year": 2020,
+            "released_year": "2020",
         },
     )
+
+    print(r.status_code)
+    print(r.json())
 
     assert r.status_code in (200, 201)
 
