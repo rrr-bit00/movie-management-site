@@ -30,7 +30,7 @@ def test_create_movie(client: TestClient):
     assert r.json()["title"] == "test1"
 
     # Update
-    r = client.put(
+    r = client.patch(
         f"{settings.API_STR}/movies/{movie_id}",
         json={"title": "test-update", "description": "lorem2", "director": "Anna"},
     )
