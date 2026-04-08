@@ -29,7 +29,6 @@ def client():
     # テストユーザーをDBに作る
     with Session(test_engine) as session:
         test_user = User(
-            id=1,
             email="test@example.com",
             hashed_password="dummy",
             is_active=True,
