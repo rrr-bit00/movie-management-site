@@ -16,14 +16,21 @@ export default async function PublicHeader() {
 
   return (
     <div>
-      <header className="border-b bg-blue-200">
+      <header className="border-b bg-[linear-gradient(90deg,#0f1218_0%,#22202a_55%,#4a2f1c_100%)] bg-slate-950/80 border-amber-300/25 text-slate-100 backdrop-blur">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <NavigationMenu>
             <NavigationMenuList>
+              <NavigationMenuItem className="ml-4">
+                <NavigationMenuLink className="font-bold text-xl" asChild>
+                  <Link href="/">
+                    TOP
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
               <NavigationMenuItem className="mx-4">
                 <NavigationMenuLink className="font-bold text-xl" asChild>
                   <Link href="/movies">
-                    Home
+                    映画一覧
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
