@@ -8,6 +8,7 @@ from sqlmodel import SQLModel, create_engine
 from sqlmodel.pool import StaticPool
 
 from src.main import app
+from src.deps import get_current_user
 
 sqlite_url = "sqlite://"
 test_engine = create_engine(
@@ -21,9 +22,28 @@ def client():
     app.state.engine = test_engine
     SQLModel.metadata.create_all(test_engine)
 
+    # テストユーザーをDBに作る
+    with Session(test_engine) as session:
+        test_user = User(
+            id=1,
+            email="test@example.com",
+            hashed_password="dummy",
+            is_active=True,
+        )
+        session.add(test_user)
+        session.commit()
+        session.refresh(test_user)
+
+    # 認証依存を override
+    def override_get_current_user():
+        return test_user
+
+    app.dependency_overrides[get_current_user] = override_get_current_user
+
     with TestClient(app) as c:
         yield c
 
+    app.dependency_overrides.clear()
     SQLModel.metadata.drop_all(test_engine)
 
     if hasattr(app.state, "engine"):
