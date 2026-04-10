@@ -27,5 +27,9 @@ UI 方針や実装内容は最終的に作者の意図で調整しています�
 - 本プロジェクトはポートフォリオ用途のデモアプリです。
 
 ## ライセンスと責任範囲
-このプロジェクトは [MIT License](./LICENSE) で公開されています。
+このプロジェクトは [MIT License](./LICENSE) で公開されています。  
 MITライセンスに基づき、本ソフトウェアは **無保証** で提供されます。
+
+## 参考情報
+- [サードパーティーに関する表記](./THIRD_PARTY_NOTICES.ja.md)
+- [Third-Party Notices](./THIRD_PARTY_NOTICES.md)
