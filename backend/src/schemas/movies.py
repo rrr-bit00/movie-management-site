@@ -2,6 +2,8 @@ import uuid
 
 from sqlmodel import SQLModel, Field
 
+from src.schemas.status import StatusRead
+
 
 class MovieBase(SQLModel):
     title: str = Field(index=True, min_length=1, max_length=30)
@@ -12,6 +14,7 @@ class MovieBase(SQLModel):
 
 
 class MovieCreate(MovieBase):
+    status_code: str | None = Field(default=None)
     pass
 
 
@@ -21,10 +24,12 @@ class MovieUpdate(SQLModel):
     director: str | None = Field(default=None, max_length=255)
     released_year: str | None = Field(default=None, max_length=4)
     image: str | None = Field(default=None, max_length=2048)
+    status_code: str | None = Field(default=None)
 
 
 class MovieResponse(MovieBase):
     id: uuid.UUID
+    status: StatusRead | None = None
 
 
 class MoviesResponse(SQLModel):
