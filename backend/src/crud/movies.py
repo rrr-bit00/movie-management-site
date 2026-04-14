@@ -10,6 +10,7 @@ from src.schemas.movies import MovieCreate, MovieUpdate
 
 
 def create_movie(session: Session, movie: MovieCreate, current_user: CurrentUser):
+    status_id = None
 
     if movie.status_code is not None:
         status = session.exec(
