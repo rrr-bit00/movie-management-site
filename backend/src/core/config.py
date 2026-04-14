@@ -65,26 +65,31 @@ class Settings(BaseSettings):
 
     PROJECT_NAME: str = "Movie-manage"
     SENTRY_DSN: HttpUrl | None = None
+
+    DATABASE_URL: str | None = None
+
     # コンテナ同士で接続するため、localhostではなくコンテナ名にする。
     POSTGRES_SERVER: str = "db"
     POSTGRES_PORT: int = 5432
-
     POSTGRES_USER: str = ""
     POSTGRES_PASSWORD: str = ""
     POSTGRES_DB: str = ""
 
     @computed_field
     @property
-    # PostgresDsnで環境変数からのPostgresのpasswordなどをURL型にし、
-    # .buildメソッドでURLとしてつなげる
-    def SQLALCHEMY_DATABASE_URI(self) -> PostgresDsn:
-        return PostgresDsn.build(
-            scheme="postgresql+psycopg",
-            username=self.POSTGRES_USER,
-            password=self.POSTGRES_PASSWORD,
-            host=self.POSTGRES_SERVER,
-            port=self.POSTGRES_PORT,
-            path=self.POSTGRES_DB,
+    def SQLALCHEMY_DATABASE_URI(self) -> str:
+        if self.DATABASE_URL:
+            return self.DATABASE_URL
+
+        return str(
+            PostgresDsn.build(
+                scheme="postgresql+psycopg",
+                username=self.POSTGRES_USER,
+                password=self.POSTGRES_PASSWORD,
+                host=self.POSTGRES_SERVER,
+                port=self.POSTGRES_PORT,
+                path=self.POSTGRES_DB,
+            )
         )
 
     BAD_VALUES: set[str] = {"localDevelopment", "postgres", "development"}
