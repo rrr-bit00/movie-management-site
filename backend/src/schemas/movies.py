@@ -2,8 +2,6 @@ import uuid
 
 from sqlmodel import SQLModel, Field
 
-from src.schemas.status import StatusRead
-
 
 class MovieBase(SQLModel):
     title: str = Field(index=True, min_length=1, max_length=30)
@@ -29,7 +27,6 @@ class MovieUpdate(SQLModel):
 
 class MovieResponse(MovieBase):
     id: uuid.UUID
-    status: StatusRead | None = None
 
 
 class MoviesResponse(SQLModel):
