@@ -20,8 +20,9 @@ def list_movies(
     session: SessionDep,
     current_user: CurrentUser,
     query: str | None = None,
+    status_code: str | None = None,
 ):
-    return movies.get_all_movies(session, current_user, query=query)
+    return movies.get_all_movies(session, current_user, query, status_code)
 
 
 @router.get("/{movie_id}", response_model=MovieResponse)

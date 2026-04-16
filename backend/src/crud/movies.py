@@ -35,6 +35,7 @@ def get_all_movies(
     session: Session,
     current_user: CurrentUser,
     query: str | None = None,
+    status_code: str | None = None,
 ):
     statement = (
         select(Movie)
@@ -50,6 +51,18 @@ def get_all_movies(
             | (Movie.director.ilike(pattern))
             | (Movie.released_year.ilike(pattern))
         )
+
+    # status_codeで絞り込みの処理
+    code = status_code.strip() if status_code else ""
+    if code:
+        status = session.exec(
+            select(Status).where(Status.code == code)
+        ).first()
+
+        if status is None:
+            return []
+
+        statement = statement.where(Movie.status_id == status.id)
 
     return session.exec(statement).all()
 
