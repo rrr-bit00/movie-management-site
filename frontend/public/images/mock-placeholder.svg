@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1200" viewBox="0 0 800 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Mock movie placeholder</title>
+  <desc id="desc">A dark poster-style placeholder image with the word IMAGE and MOCK PLACEHOLDER.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1f2937" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#374151" />
+      <stop offset="100%" stop-color="#1f2937" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1200" fill="url(#bg)"/>
+  <rect x="40" y="40" width="720" height="1120" rx="24" fill="url(#panel)" stroke="#475569" stroke-width="2"/>
+  <text x="50%" y="48%" text-anchor="middle" fill="#e5e7eb" font-size="72" font-family="Arial, Helvetica, sans-serif" letter-spacing="8">
+    IMAGE
+  </text>
+  <text x="50%" y="56%" text-anchor="middle" fill="#94a3b8" font-size="28" font-family="Arial, Helvetica, sans-serif" letter-spacing="3">
+    MOCK PLACEHOLDER
+  </text>
+</svg>

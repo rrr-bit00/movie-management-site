@@ -10,7 +10,7 @@ from src.schemas.movies import MovieCreate, MovieUpdate
 
 
 def create_movie(session: Session, movie: MovieCreate, current_user: CurrentUser):
-    status_id = None
+    status_id = 1
 
     if movie.status_code is not None:
         status = session.exec(
@@ -55,9 +55,7 @@ def get_all_movies(
     # status_codeで絞り込みの処理
     code = status_code.strip() if status_code else ""
     if code:
-        status = session.exec(
-            select(Status).where(Status.code == code)
-        ).first()
+        status = session.exec(select(Status).where(Status.code == code)).first()
 
         if status is None:
             return []

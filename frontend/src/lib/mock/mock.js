@@ -1,21 +1,27 @@
 import { mocksData } from "./mockData";
 
 // モックの一覧取得
-export async function searchMoviesMock(q) {
+export async function searchMoviesMock(q = "", statusCode = null) {
     // Mockデータ用
     await new Promise(resolve => setTimeout(resolve, 100))
 
-    if (!q) return mocksData
+    let movies = [...mocksData]
+    const keyword = q.trim().toLowerCase()
+    if (keyword) {
+        movies = movies.filter(movie => {
+            const titleMatch = movie.title.toLowerCase().includes(keyword)
+            const directorMatch = movie.director.toLowerCase().includes(keyword)
+            const yearMatch = String(movie.released_year ?? "").toLowerCase().includes(keyword)
 
-    q = q.toLowerCase()
+            return titleMatch || directorMatch || yearMatch
+        })
+    }
 
-    return mocksData.filter(movie => {
-        const titleMatch = movie.title.toLowerCase().includes(q)
-        const directorMatch = movie.director.toLowerCase().includes(q)
-        const yearMatch = String(movie.released_year ?? "").toLowerCase().includes(q)
+    if (statusCode) {
+        movies = movies.filter(movie => movie.status?.code === statusCode)
+    }
 
-        return titleMatch || directorMatch || yearMatch
-    })
+    return movies
 }
 
 // モックの詳細を取得

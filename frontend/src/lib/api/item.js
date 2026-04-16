@@ -2,8 +2,21 @@ import "server-only";
 import { notFound } from "next/navigation";
 import { fetchWithAuth } from "../session";
 
-export async function searchMoviesApi(q) {
-    const res = await fetchWithAuth(`/movies?query=${encodeURIComponent(q ?? "")}`)
+export async function searchMoviesApi(q = "", statusCode = null) {
+    const params = new URLSearchParams()
+
+    // URLにクエリとステータスコードをセット
+    const keyword = q?.trim() ?? ""
+    if (keyword) {
+        params.set("query", keyword)
+    }
+    if (statusCode) {
+        params.set("status_code", statusCode)
+    }
+
+    const queryString = params.toString()
+    const url = queryString ? `/movies?${queryString}` : "/movies"
+    const res = await fetchWithAuth(url)
     if (!res.ok) {
         throw new Error("検索に失敗しました")
     }
