@@ -16,6 +16,7 @@ export default function MovieEdit({ movie }) {
                 director: movie.director,
                 released_year: String(movie.released_year ?? ""),
                 image: movie.image ?? "",
+                status: movie.status?.code ?? "unwatched"
             }}
             submitLabel="更新"
             onSubmit={async (values) => {

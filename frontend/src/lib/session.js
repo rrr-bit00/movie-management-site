@@ -31,6 +31,7 @@ export async function getAccessTokenOrThrow() {
     return token
 }
 
+// トークン付きでAPIにfetchする関数
 export async function fetchWithAuth(path, init = {}) {
     const token = await getAccessTokenOrThrow()
     const apiBaseUrl = getApiBaseUrl()

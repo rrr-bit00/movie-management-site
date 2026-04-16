@@ -11,8 +11,9 @@ class MovieBase(SQLModel):
     released_year: str | None = Field(default=None, max_length=4)
     image: str | None = Field(default=None, max_length=2048)
 
+
 class MovieCreate(MovieBase):
-    status_code: str | None = Field(default=None)
+    status_code: str = Field(default="unwatched")
     pass
 
 

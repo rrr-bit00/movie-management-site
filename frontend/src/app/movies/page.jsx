@@ -1,19 +1,27 @@
 import MovieList from "@/components/crud/MovieList"
+import StatusFilter from "@/components/ui/status-filter";
 import { searchMovies } from "@/lib/search";
 
 export default async function MoviePage({ searchParams }) {
-    const { q } = await searchParams
+    const { q, status } = await searchParams
     // クエリがあるか判定
     const query = q ?? ''
+    // ステータスコードの中身で内容を変える
+    const statusCode = status && status !== "all" ? status : null
 
     // 検索クエリから問い合わせ
-    const movies = await searchMovies(query)
+    const movies = await searchMovies(query, statusCode)
 
     return (
-        <div className="min-h-screen bg-[radial-gradient(circle_at_25%_35%,_#f5b97155,_transparent_28%),radial-gradient(circle_at_80%_20%,_#76b7ff4d,_transparent_26%),radial-gradient(circle_at_50%_80%,_#7fd8b240,_transparent_30%),linear-gradient(165deg,_#0e131b,_#1b2432_58%,_#1a1714)] py-10">
-            <div className="flex flex-wrap justify-center">
-                <MovieList movies={movies} />
-            </div >
+        <div className="min-h-screen bg-[linear-gradient(180deg,_#2c3037_0%,_#31353d_48%,_#2a2e35_100%)] py-10">
+            <div className="mx-auto max-w-6x1 px-4">
+                <div className="mb-6">
+                    <StatusFilter />
+                </div>
+                <div className="flex flex-wrap justify-center">
+                    <MovieList movies={movies} />
+                </div >
+            </div>
         </div>
     )
 }

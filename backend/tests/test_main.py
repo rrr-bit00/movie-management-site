@@ -12,6 +12,7 @@ def test_create_movie(client: TestClient):
             "description": "lorem",
             "director": "John",
             "released_year": "2020",
+            "status_code": "unwatched",
         },
     )
 
@@ -23,6 +24,8 @@ def test_create_movie(client: TestClient):
     movie = r.json()
     movie_id = movie["id"]
     assert movie_id is not None
+    assert movie["status"]["code"] == "unwatched"
+    assert movie["status"]["label"] == "未視聴"
 
     # Read
     r = client.get(f"{settings.API_STR}/movies/{movie_id}")

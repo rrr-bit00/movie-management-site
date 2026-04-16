@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
+import { MOVIE_STATUS_OPTIONS } from "@/lib/status";
 
 export default function MovieForm({
   initialValues = {
@@ -12,6 +13,7 @@ export default function MovieForm({
     director: "",
     released_year: "",
     image: "",
+    status_code: "unwatched",
   },
   submitLabel,
   onSubmit,
@@ -31,6 +33,7 @@ export default function MovieForm({
       ...values,
       released_year: values.released_year === "" ? undefined : values.released_year,
       image: values.image === "" ? undefined : values.image,
+      status_code: values.status_code || "unwatched",
     };
     await onSubmit(payload);
   };
@@ -78,7 +81,7 @@ export default function MovieForm({
           className="border-slate-300 bg-white shadow-none"
           {...register("released_year", {
             // 4桁の数字の正規表現
-            pattern: { value: /^\d{4}/, message: "4桁の数字にしてください" },
+            pattern: { value: /^\d{4}$/, message: "4桁の数字にしてください" },
           })}
         />
         {errors.released_year && <p className="text-xs text-red-600">{String(errors.released_year.message)}</p>}
@@ -94,6 +97,21 @@ export default function MovieForm({
           {...register("image")}
         />
         {errors.image && <p className="text-xs text-red-600">{String(errors.image.message)}</p>}
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="status_code" className={"text-xs font-semibold tracking-wide text-slate-600"}>ステータス</Label>
+        <select
+          id="status_code" className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-none"
+          {...register("status_code", { required: "ステータスは必須" })}
+        >
+          {MOVIE_STATUS_OPTIONS.map((status) => (
+            <option key={status.code} value={status.code}>
+              {status.label}
+            </option>
+          ))}
+        </select>
+        {errors.status_code && <p className="text-xs text-red-600">{String(errors.status_code.message)}</p>}
       </div>
 
       <Button

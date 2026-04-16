@@ -1,5 +1,6 @@
 'use client'
 
+import { getStatusClass } from "@/lib/status"
 import Link from "next/link"
 
 export default function MovieList({ movies }) {
@@ -22,11 +23,28 @@ export default function MovieList({ movies }) {
                                 No Image
                             </div>
                         )}
-                        <div className="px-6 py-4 text-center bg-white/12">
-                            <h3 className="font-bold text-xl mb-2 text-amber-200">{movie.title}</h3>
-                            <p className="mb-1 text-slate-200/90">監督 {movie.director}</p>
-                            <p className="mb-2 text-slate-200/90">{movie.released_year} 年公開</p>
-                            <p className="line-clamp-2">{movie.description}</p>
+                        <div className="bg-slate-700/95 px-6 py-4 backdrop-blur-0">
+                            <h3 className="font-bold text-center text-xl mb-3 text-amber-200">
+                                {movie.title}
+                            </h3>
+                            <div className="mb-3 flex items-start justify-between gap-3">
+                                <div className="text-left">
+                                    <p className="mb-1 text-slate-200/90">
+                                        監督 {movie.director}
+                                    </p>
+                                    <p className="text-slate-200/90">
+                                        {movie.released_year} 年公開
+                                    </p>
+                                </div>
+                                {movie.status && (
+                                    <span className={`shrink-0 rounded-full border px-3 py-1 text-sm font-medium ${getStatusClass(movie.status.code)}`}>
+                                        {movie.status.label}
+                                    </span>
+                                )}
+                            </div>
+                            <p className="line-clamp-2 text-left text-slate-100/90">
+                                {movie.description}
+                            </p>
                         </div>
                     </div>
                 </Link>

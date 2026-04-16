@@ -10,8 +10,9 @@ from sqlmodel.pool import StaticPool
 from src.main import app
 from src.models.users import User
 from src.deps import get_current_user
+from src.db.init_statuses import init_statuses
 
-sqlite_url = "sqlite://"
+
 sqlite_url = "sqlite://"
 test_engine = create_engine(
     sqlite_url,
@@ -28,6 +29,8 @@ def client():
 
     # テストユーザーをDBに作る
     with Session(test_engine) as session:
+        init_statuses(session)
+
         test_user = User(
             username="testuser",
             email="test@example.com",
