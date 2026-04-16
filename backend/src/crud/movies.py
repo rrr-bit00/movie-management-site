@@ -14,7 +14,7 @@ def create_movie(session: Session, movie: MovieCreate, current_user: CurrentUser
 
     if movie.status_code is not None:
         status = session.exec(
-            select(Status).Where(Status.code == movie.status_code)
+            select(Status).where(Status.code == movie.status_code)
         ).first()
 
         if status is None:

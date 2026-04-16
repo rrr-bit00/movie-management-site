@@ -12,6 +12,7 @@ def test_create_movie(client: TestClient):
             "description": "lorem",
             "director": "John",
             "released_year": "2020",
+            "status_code": "unwatched",
         },
     )
 

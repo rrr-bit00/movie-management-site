@@ -3,6 +3,8 @@ from typing import Annotated
 from fastapi import Depends, Request
 from sqlmodel import Session, SQLModel, create_engine
 
+from src.db.init_statuses import init_statuses
+
 # create_allの前にDBのテーブル設計を読み込んでいる必要があるのでインポート
 from src.core.config import settings
 from src.models.users import User
@@ -16,6 +18,9 @@ def build_engine():
 # DBとテーブル作成
 def create_db_and_tables(engine):
     SQLModel.metadata.create_all(engine)
+
+    with Session(engine) as session:
+        init_statuses(session)
 
 
 # Session
