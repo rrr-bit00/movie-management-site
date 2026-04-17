@@ -4,7 +4,8 @@ import Link from "next/link"
 export default function Page() {
   return (
     <>
-      <BackendWarmup /> //コールドスタート対策
+      {/* //コールドスタート対策 */}
+      <BackendWarmup />
 
       <main className="min-h-screen bg-[radial-gradient(circle_at_10%_0%,_#ffe6c9,_transparent_35%),radial-gradient(circle_at_90%_20%,_#c9e6ff,_transparent_30%),linear-gradient(165deg,_#0f1218,_#192333_55%,_#12161d)] px-6 py-14 text-slate-100">
         <section className="mx-auto max-w-6xl">
