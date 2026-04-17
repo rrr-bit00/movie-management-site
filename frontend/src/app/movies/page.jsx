@@ -13,7 +13,7 @@ export default async function MoviePage({ searchParams }) {
     const movies = await searchMovies(query, statusCode)
 
     return (
-        <div className="min-h-screen bg-[linear-gradient(180deg,_#2c3037_0%,_#31353d_48%,_#2a2e35_100%)] py-10">
+        <div className="min-h-[calc(100dvh-77px)] bg-[linear-gradient(180deg,_#2c3037_0%,_#31353d_48%,_#2a2e35_100%)] py-10">
             <div className="mx-auto max-w-6x1 px-4">
                 <div className="mb-6">
                     <StatusFilter />

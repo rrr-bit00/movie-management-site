@@ -10,10 +10,10 @@ export default function MovieList({ movies }) {
         <>
             {movies.map((movie) => (
                 <Link href={`/movies/${movie.id}`} key={movie.id} className="mx-5 my-6 border border-amber-300/4 hover:shadow-amber-300/20" >
-                    <div className="block max-w-sm overflow-hidden rounded border-3 border-solid border-gray-300 shadow-lg transition duration-200 hover:-translate-y-1 hover:shadow-2xl">
+                    <div className="block w-63 max-w-sm overflow-hidden rounded border-3 border-solid border-gray-300 shadow-lg transition duration-200 hover:-translate-y-1 hover:shadow-2xl">
                         {movie.image ? (
                             <img
-                                className="flex h-52 w-full items-center justify-center bg-linear-to-br from-slate-200 to-slate-300"
+                                className="h-52 w-full object-cover bg-linear-to-br from-slate-200 to-slate-300"
                                 src={movie.image}
                                 alt={movie.title}
                                 loading="lazy"
