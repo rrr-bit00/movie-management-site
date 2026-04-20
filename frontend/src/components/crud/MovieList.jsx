@@ -13,7 +13,7 @@ export default function MovieList({ movies }) {
             {movies.map((movie) => {
                 const hasImage = Boolean(movie.image?.trim())
                 const description = movie.description?.trim() || "あらすじ未登録"
-                const releasedYear = movie.released_year?.trim()
+                const releasedYear = movie.released_year
                     ? `${movie.released_year} 年公開`
                     : "公開年未登録"
 
