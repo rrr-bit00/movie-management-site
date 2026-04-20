@@ -2,6 +2,7 @@
 
 import { signup } from "@/lib/actions/auth";
 import { useActionState } from "react";
+import Link from "next/link"
 
 function ConstraintItem({ children }) {
     return <li className="text-xs text-slate-600">{children}</li>
@@ -85,6 +86,18 @@ export default function SignupForm() {
             >
                 {pending ? "登録中..." : "サインアップ"}
             </button>
+            <p className="text-xs leading-6 text-slate-500">
+                登録前に{" "}
+                <Link
+                    href="/privacy"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-semibold text-emerald-700 underline underline-offset-4 hover:text-emerald-800"
+                >
+                    プライバシーポリシー
+                </Link>
+                {" "}をご確認ください。
+            </p>
         </form>
     )
 }
