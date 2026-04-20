@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { logout } from "@/lib/actions/auth";
 import { Button } from "@/components/ui/button";
+import SearchInput from "@/components/ui/search-input";
 
 function navClass({ active, tone }) {
   const base =
@@ -68,6 +69,18 @@ export default function AppHeader({ user }) {
             )}
           </nav>
         </div>
+
+        {isMoviesPage ? (
+        <SearchInput
+            placeholder="作品や監督、公開年から検索"
+            className="w-full border border-slate-200/15 bg-white/10 text-slate-100 placeholder:text-slate-300/70 sm:w-[220px] lg:w-[300px]"
+          />
+        ) : (
+          <div className="hidden md:block"/>
+        )
+
+
+}
 
         {user ? (
           <div className="flex items-center gap-2">
