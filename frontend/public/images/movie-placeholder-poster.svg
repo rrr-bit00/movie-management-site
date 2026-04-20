@@ -1,0 +1,94 @@
+<svg width="1200" height="1800" viewBox="0 0 1200 1800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="80" x2="1080" y2="1720" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#151A24"/>
+      <stop offset="0.48" stop-color="#1A2130"/>
+      <stop offset="1" stop-color="#231B46"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(880 520) rotate(122) scale(760 760)">
+      <stop stop-color="#5447C8" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#5447C8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(390 420) rotate(90) scale(540 470)">
+      <stop stop-color="#8FD4FF" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#8FD4FF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="reel" x1="600" y1="470" x2="600" y2="1300" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#232B3D"/>
+      <stop offset="1" stop-color="#111623"/>
+    </linearGradient>
+    <linearGradient id="play" x1="520" y1="640" x2="690" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F3E7A8"/>
+      <stop offset="1" stop-color="#D7DCC2"/>
+    </linearGradient>
+    <filter id="shadow" x="318" y="321" width="564" height="1086" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="20" stdDeviation="28" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="1800" fill="url(#bg)"/>
+  <rect width="1200" height="1800" fill="url(#glow1)"/>
+  <rect width="1200" height="1800" fill="url(#glow2)"/>
+
+  <g opacity="0.45">
+    <circle cx="258" cy="1060" r="2.2" fill="#D6D3F0"/>
+    <circle cx="925" cy="1128" r="2.5" fill="#C8D9F7"/>
+    <circle cx="755" cy="980" r="1.9" fill="#F1D89A"/>
+    <circle cx="408" cy="1265" r="2.4" fill="#E1E8F8"/>
+    <circle cx="847" cy="768" r="1.8" fill="#D5E2FF"/>
+    <circle cx="358" cy="786" r="1.5" fill="#D8CDA2"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="374" y="377" width="452" height="950" rx="22" fill="url(#reel)"/>
+    <rect x="392" y="395" width="416" height="914" rx="16" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+
+    <g opacity="0.55">
+      <rect x="392" y="430" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="392" y="482" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="392" y="534" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="392" y="586" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="392" y="638" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="392" y="690" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="392" y="742" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="392" y="794" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="392" y="846" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="392" y="898" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="392" y="950" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="392" y="1002" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="392" y="1054" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="392" y="1106" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="392" y="1158" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="392" y="1210" width="24" height="20" rx="6" fill="#5B657B"/>
+
+      <rect x="784" y="430" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="784" y="482" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="784" y="534" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="784" y="586" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="784" y="638" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="784" y="690" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="784" y="742" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="784" y="794" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="784" y="846" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="784" y="898" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="784" y="950" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="784" y="1002" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="784" y="1054" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="784" y="1106" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="784" y="1158" width="24" height="20" rx="6" fill="#5B657B"/>
+      <rect x="784" y="1210" width="24" height="20" rx="6" fill="#5B657B"/>
+    </g>
+
+    <circle cx="600" cy="700" r="128" fill="#DCE2D3" fill-opacity="0.12"/>
+    <path d="M558 617C558 604.15 572.245 596.475 582.948 603.507L705.949 684.33C715.677 690.722 715.677 704.978 705.949 711.37L582.948 792.193C572.245 799.225 558 791.55 558 778.7V617Z" fill="url(#play)"/>
+
+    <rect x="495" y="856" width="210" height="58" rx="29" fill="#202845"/>
+    <rect x="510" y="871" width="180" height="28" rx="14" fill="#2B3556"/>
+
+    <path d="M470 1158C502 1128 548 1110 600 1110C652 1110 698 1128 730 1158" stroke="#7F7BDE" stroke-opacity="0.35" stroke-width="5" stroke-linecap="round"/>
+    <path d="M518 1205C540 1187 568 1177 600 1177C632 1177 660 1187 682 1205" stroke="#B6B0F4" stroke-opacity="0.35" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <text x="600" y="1498" text-anchor="middle" fill="#E6E1C5" font-family="Inter, Arial, sans-serif" font-size="62" font-weight="600" letter-spacing="10">NO IMAGE</text>
+  <text x="600" y="1578" text-anchor="middle" fill="#8D96A8" font-family="Inter, Arial, sans-serif" font-size="30" letter-spacing="5">MOVIE ARCHIVE</text>
+</svg>

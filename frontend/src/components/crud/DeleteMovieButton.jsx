@@ -16,10 +16,8 @@ import {
     AlertDialogTrigger
 } from "../ui/alert-dialog";
 
-
-export default function DeleteMovieButton({ id }) {
+export default function DeleteMovieButton({ id, className = "" }) {
     const router = useRouter();
-    // alertDialogの開閉用にstateを作成
     const [open, setOpen] = useState(false);
     const [deleting, setDeleting] = useState(false);
 
@@ -27,15 +25,12 @@ export default function DeleteMovieButton({ id }) {
         try {
             setDeleting(true);
             await removeMovie(id);
-
-            // 成功したらalertDialogを閉じる
             setOpen(false);
             router.push("/movies");
             router.refresh();
         } catch (e) {
             console.error(e);
             alert("削除に失敗しました");
-            // 失敗したら開いたままにする
         } finally {
             setDeleting(false);
         }
@@ -43,20 +38,21 @@ export default function DeleteMovieButton({ id }) {
 
     return (
         <AlertDialog open={open} onOpenChange={setOpen}>
-            {/* クリックすると、自動でopenをtrueに変更 */}
             <AlertDialogTrigger asChild>
-                <Button variant="destructive">削除</Button>
+                <Button variant="destructive" className={className}>
+                    削除
+                </Button>
             </AlertDialogTrigger>
 
-            {/* 確認画面のUI */}
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>本当に削除しますか？</AlertDialogTitle>
-                    <AlertDialogDescription>削除したら元に戻すことはできません</AlertDialogDescription>
+                    <AlertDialogDescription>
+                        削除したら元に戻すことはできません
+                    </AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter>
 
-                    {/* 確認画面のボタン */}
+                <AlertDialogFooter>
                     <AlertDialogCancel disabled={deleting}>キャンセル</AlertDialogCancel>
                     <AlertDialogAction asChild>
                         <Button
