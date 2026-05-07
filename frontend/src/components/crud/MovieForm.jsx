@@ -94,7 +94,7 @@ export default function MovieForm({
         {errors.released_year && <p className="text-xs text-red-600">{String(errors.released_year.message)}</p>}
       </div>
 
-      <div className="space-y-1.5">
+      {/* <div className="space-y-1.5">
         <Label htmlFor="image" className="text-sm font-medium text-slate-700">
           画像URL
         </Label>
@@ -106,7 +106,7 @@ export default function MovieForm({
           {...register("image")}
         />
         {errors.image && <p className="text-xs text-red-600">{String(errors.image.message)}</p>}
-      </div>
+      </div> */}
 
       <div className="space-y-1.5">
         <Label htmlFor="status_code" className="text-sm font-medium text-slate-700">
